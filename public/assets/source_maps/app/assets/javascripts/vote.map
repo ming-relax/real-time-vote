@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "",
+  "sourceRoot": "",
+  "sources": [
+    "/assets/source_maps/app/assets/javascripts/vote.coffee"
+  ],
+  "names": [],
+  "mappings": "AAWA;CAAA,CAAA,CAAA,GAAM;CACJ,CAAS,EAAT,GAAA;CAAA,CACO,EAAP,CAAA;CADA,CAEa,EAAb,OAAA;CAFA,CAGQ,EAAR,EAAA;CAHA,CAIM,EAAN,CAAM,CAAA,EAAgB;CAJtB,CAKY,CAAA,CAAZ,KAAa,CAAb;CACE,EAAG,CAAmB,EAAtB,KAAA,CAAsB;CAAtB,EACG,CAAgB,EAAnB,EAAA;CADA,EAEO,CAAH,EAAA,CAAW,GAAX;CACK,IAAT,EAAgB,CAAR,KAAR;CATF,IAKY;CANd,GAAA;CAAA"
+}

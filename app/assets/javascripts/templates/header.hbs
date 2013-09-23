@@ -1,0 +1,19 @@
+<div class="navbar">
+  <div class="navbar-inner">
+ 
+      <!-- Be sure to leave the brand out there if you want it shown -->
+      <a href="/" class="brand">Vote for Money</a>
+
+      <ul class="nav pull-right">
+        {{#if current_user }}  
+          <li><a href="/#logout"><strong>Welcome {{ username }} Logout</strong></a></li>
+        {{else}}
+          <li><a href="/#login">Login</a></li>
+        {{/if}}
+
+                       
+      </ul>
+      
+  </div>
+
+</div>

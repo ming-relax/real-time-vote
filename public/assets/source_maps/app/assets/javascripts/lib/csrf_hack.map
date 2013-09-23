@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "",
+  "sourceRoot": "",
+  "sources": [
+    "/assets/source_maps/app/assets/javascripts/lib/csrf_hack.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;CAAA,CAAA,CAAc,CAAd,CAAc,CAAR,GAAS;CACZ,QAAD,EAAA;CACE,CAAY,CAAA,GAAZ,EAAY,CAAC,CAAb;CACE,GAAW,CAAiB,GAA5B;CAAA,eAAA;UAAA;CACA,GAA+C,CAA/C,GAAA;CAAI,CAAiC,CAAlC,EAAH,SAAA,EAAA,CAAA;UAFU;CAAZ,MAAY;CAFF,KACZ;CADF,EAAc;;CAAd,CAMA,CAAE,MAAA;CACO,GAAP,EAAM,GAAM,EAAZ,cAAY;CADd,EAAE;CANF"
+}
