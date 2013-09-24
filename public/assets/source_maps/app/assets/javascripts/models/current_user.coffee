@@ -5,7 +5,18 @@ class App.Models.CurrentUser extends Backbone.Model
     room_id: -1
     group_id: -1
     round_id: -1
+    total_earning: null
     is_sync: true
+    group:
+      round_id: null
+      moneys: null
+      betray_penalty: null
+      last_deal:
+        submitter: null
+        acceptor: null
+        moneys: null
+        submitter_penalty: null
+        acceptor_penalty: null
   }
 
   urlRoot: '/users'  

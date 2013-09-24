@@ -6,6 +6,25 @@ class ApplicationController < ActionController::Base
   respond_to :json
 
   private
+
+    def init_user_info
+      user_info = {}
+      user_info[:id] = current_user.id
+      user_info
+    end
+
+    def current_group
+      group_id = current_user.group_id
+      return nil unless group_id
+      Group.find(group_id)
+    end
+
+    def last_deal(group)
+      return nil if group.round_id == 0
+      Proposal.where('group_id = ? AND round_id = ? AND accepted = ?',
+                      group.id, group.round_id - 1, true)
+    end
+
     def group_users
       group_id = current_user.group_id
       return nil unless group_id
@@ -20,4 +39,7 @@ class ApplicationController < ActionController::Base
     end
 
   helper_method :group_users
+  helper_method :current_group
+  helper_method :last_deal
+  helper_method :init_user_info
 end

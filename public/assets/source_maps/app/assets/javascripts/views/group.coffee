@@ -36,14 +36,14 @@ class App.Views.Group extends Backbone.View
 
 
   next_round_rsp: ->
-    @model.set 'deal', null
     is_sync = App.currentUser.get 'is_sync'
     @model.set({is_sync: is_sync, deal: null})
 
   next_round_error: ->
     console.log 'next_round_error'
 
-  # update statistical information about each user's money
+  # update these: 
+  # 1) deal.submitter, deal.acceptor; 2) total_earnings, last_earnings
   # show the dialog of next-round button
   group_deal: (group_id, p) ->
     deal = 

@@ -1,6 +1,6 @@
 class App.Views.Room extends Backbone.View
-  tagName: "li"
-  className: "span3"
+  # tagName: "li"
+  # className: "span3"
   template: HandlebarsTemplates['room']
 
 
@@ -58,8 +58,8 @@ class App.Views.Room extends Backbone.View
 
 class App.Views.Rooms extends Backbone.View
 
-  tagName: 'ul'
-  className: "thumbnails"
+  # tagName: 'ul'
+  # className: "thumbnails"
 
   initialize: ->
     @rooms = []

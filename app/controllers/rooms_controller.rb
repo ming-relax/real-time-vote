@@ -26,8 +26,5 @@ class RoomsController < ApplicationController
     end
   end
 
-  private
-
-
 
 end

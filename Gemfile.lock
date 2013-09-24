@@ -78,6 +78,9 @@ GEM
       railties (>= 3.0.0)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
+    gon (4.1.1)
+      actionpack (>= 2.3.0)
+      json
     handlebars_assets (0.12.0)
       execjs (>= 1.2.9)
       sprockets (>= 2.0.3)
@@ -187,6 +190,7 @@ DEPENDENCIES
   database_cleaner
   debugger
   factory_girl_rails
+  gon
   handlebars_assets
   jasminerice!
   jbuilder (~> 1.2)

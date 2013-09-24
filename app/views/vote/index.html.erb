@@ -1,31 +1,3 @@
 <%= javascript_tag do %>
-  <% if current_user %>
-    var current_user = {
-      id: <%= current_user.id %>,
-
-      loggedIn: true,
-      username: "<%= current_user.username %>",
-      
-
-      <% if current_user.room_id %>
-        room_id: <%= current_user.room_id %>,
-      <% end %>
-
-      <% if current_user.round_id %>
-        round_id: <%= current_user.round_id %>,
-      <% end %>
-      
-      <% if group_users %>
-        group_id: <%= current_user.group_id %>,
-        group_users: <%= group_users %>
-      <% end %>
-
-      
-    };
-  <% else %>
-    var current_user = {
-      loggedIn: false
-    };
-  <% end %>
-  App.initialize({current_user: current_user});
+  App.initialize({current_user: gon.user_info});
 <% end %>

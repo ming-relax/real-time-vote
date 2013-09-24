@@ -2,6 +2,10 @@ class Group < ActiveRecord::Base
   has_many :users
   has_many :proposals
 
+  def self.betray_penalty
+    0
+  end
+
   # use redis to cache group info
   def self.round_id_sync?(group_id)
     group = Group.find(group_id)
