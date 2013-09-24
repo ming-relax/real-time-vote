@@ -160,4 +160,19 @@ groups
 proposals
 
 	id, submitter, acceptor, moneys[3], accepted?, submitter_penaty, acceptor_penalty, group_id, round_id
+	
+	
+##realtime consideration
+###1) the one who initiate **push** should not process the **push** message
 
+
+###2) so the http response should have all info as if were **pushed** from node.js
+
+
+###3) every browser refresh should get fresh data (kind of like init system state), in case of error happens or user want to fresh.
+
+###4) senario to consider:
+      join room;
+      form a group;
+      accept proposal and make a deal;
+      start next round;

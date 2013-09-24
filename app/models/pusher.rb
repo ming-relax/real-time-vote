@@ -42,6 +42,14 @@ class Pusher
                             :acceptor_penalty => p.acceptor_penalty}})
   end
 
+
+  def self.group_sync(user_id, group_id, round_id)
+    publish("group:sync",
+            { :user_id => user_id,
+              :group_id => group_id,
+              :round_id => round_id})
+  end
+
   def self.publish(channel, msg)
     $redis.publish channel, JSON.dump(msg)
   end

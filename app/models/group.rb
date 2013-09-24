@@ -2,6 +2,16 @@ class Group < ActiveRecord::Base
   has_many :users
   has_many :proposals
 
+  # use redis to cache group info
+  def self.round_id_sync?(group_id)
+    group = Group.find(group_id)
+    users = group.users
+    users.each do |u|
+      return false if u.round_id != group.round_id
+    end
+    return true
+  end
+
   def penalty(this_id, other_id, round_id)
     if round_id == 0
       0

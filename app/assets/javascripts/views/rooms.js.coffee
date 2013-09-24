@@ -14,6 +14,7 @@ class App.Views.Room extends Backbone.View
     @listenTo @model, 'change', @render
 
   render: (join=false) ->
+    # console.log 'render room: ', @model.toJSON() 
     empty_seats = 3 - @model.get("users").length
     join = @model.get 'join'
     if join
@@ -36,6 +37,15 @@ class App.Views.Room extends Backbone.View
   joinOrLeaveSuccess: ->
     if @isJoin()
       @render true
+      group_users = @model.get('users')
+      group_users.sort()
+      App.currentUser.set 'group_users', group_users
+      if group_users.length is 3
+        group_id = @model.get('group_id')
+        round_id = @model.get('round_id')
+        App.currentUser.set 'group_id', group_id
+        App.currentUser.set 'round_id', round_id
+        App.Vent.trigger 'group:start'
     else
       @render false
 

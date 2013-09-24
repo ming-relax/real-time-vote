@@ -27,6 +27,8 @@ class App.Listener
 
         when 'group:deal' then @group_deal msg.group_id, msg.proposal
 
+        when 'group:sync' then @group_sync msg.user_id, msg.group_id, msg.round_id
+
         else -> console.log 'unkonw channel'
 
   login: ->
@@ -43,6 +45,10 @@ class App.Listener
   isMyGroup: (group_id) ->
     current_group_id = App.currentUser.get 'group_id'
     return current_group_id && group_id && current_group_id is group_id
+
+  isMyRoom: (room_id) ->
+    current_room_id = App.currentUser.get 'room_id'
+    return current_room_id is room_id
 
   isOtherPlayer: (room_id, user_id) ->
     current_room_id = App.currentUser.get 'room_id'
@@ -70,9 +76,16 @@ class App.Listener
     if @isOtherPlayer room_id, user_id
       App.Vent.trigger 'push:room:leave', room_id, user_id
 
+  # when the msg pushed user may not get rooms' response
   group_start: (room_id, group_id, group_users) ->
     console.log "group:start room_id: #{room_id} group_id: #{group_id}, current_user: #{App.currentUser.id}, group_users: #{group_users}"
-    App.Vent.trigger 'group:start', room_id, group_id, group_users
+    
+    if @isMyRoom(room_id)
+      group_users.sort()
+      App.currentUser.set 'group_id', group_id
+      App.currentUser.set 'group_users', group_users
+      App.currentUser.set 'round_id', 0
+      App.Vent.trigger 'group:start'
 
   group_proposal: (group_id, proposal) ->
     console.log "group:proposal group_id: #{group_id}, proposal: ", proposal
@@ -83,5 +96,10 @@ class App.Listener
     console.log "group:deal group_id: #{group_id}, proposal: ", proposal
     if @isMyGroup(group_id)
       App.Vent.trigger 'push:group:deal', group_id, proposal
+
+  group_sync: (user_id, group_id, round_id) ->
+    console.log "group:sync group_id: #{group_id}, round_id: #{round_id}" 
+    if @isntMyself(user_id) && @isMyGroup(group_id)
+      App.Vent.trigger 'push:group:sync', round_id
 
 _.extend App.Listener.prototype, Backbone.Events

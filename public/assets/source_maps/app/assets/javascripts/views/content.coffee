@@ -24,13 +24,11 @@ class App.Views.Content extends Backbone.View
   initRooms: ->
     new App.Views.Rooms({collection: new App.Collections.Rooms()})
 
-  swapGroup: (room_id, group_id, group_users) ->
-       
-    group_users.sort()
-    App.currentUser.set 'group_users', group_users
-    App.currentUser.set 'room_id', room_id
-    App.currentUser.set 'group_id', group_id
-    App.currentUser.set 'round_id', 0    
+  swapGroup: ->
+    console.log 'content swapGroup'
+    room_id = App.currentUser.get 'room_id'
+    group_users = App.currentUser.get 'group_users'
+
     @swapSubView(new App.Views.Group({model: new App.Models.Group({room_id: room_id, users: group_users})}))
     Backbone.history.navigate("/group")
     console.log 'group_init done!'

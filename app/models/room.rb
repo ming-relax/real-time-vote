@@ -28,14 +28,16 @@ class Room
 
     # Push message
     Pusher.join(room_id, user_id)
-
+    g_id = -1
     if users.length == 3
       # create group and push start msg to group members
       g = Group.create(room_id: room_id, round_id: 0, moneys: [0, 0, 0])
+      g_id = g.id
       group_users = []
       users.each do |u_id|
         u = User.find(u_id)
         u.group_id = g.id
+        u.round_id = 0
         u.save!
         group_users << u.id
       end
@@ -43,7 +45,7 @@ class Room
       Pusher.start(room_id, g.id, group_users)
     end
 
-    [nil, users]
+    [nil, users, g_id]
   end
 
   def self.leave(room_id, user_id)

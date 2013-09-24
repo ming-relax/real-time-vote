@@ -9,7 +9,7 @@ class RoomsController < ApplicationController
   end
 
   def update
-    if (!params[:user_id] || !params[:id])
+    if (params[:user_id] == nil)
       render status:422
       return false
     end
@@ -18,7 +18,7 @@ class RoomsController < ApplicationController
     room_id = params[:id].to_i
     
     if params[:join] == true
-      err, @users = Room.join(room_id, user_id)
+      err, @users, @g_id = Room.join(room_id, user_id)
       render status:422 if err
     else
       err, @users = Room.leave(room_id, user_id)

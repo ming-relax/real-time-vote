@@ -5,11 +5,14 @@ class App.Models.CurrentUser extends Backbone.Model
     room_id: -1
     group_id: -1
     round_id: -1
+    is_sync: true
   }
+
+  urlRoot: '/users'  
     
   initialize: ->
     @listenTo App.Vent, "user:logged_in", @logged_in
-    @listenTo App.Vent, "user:logged_out", @logged_out  
+    @listenTo App.Vent, "user:logged_out", @logged_out
 
   logged_in: (id, username) ->
     @set id: id, username: username, loggedIn: true 

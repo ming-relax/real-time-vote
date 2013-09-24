@@ -20,19 +20,42 @@ class App.Views.Group extends Backbone.View
 
 
     @listenTo App.Vent, 'push:group:deal', @group_deal
+    @listenTo App.Vent, 'push:group:sync', @group_sync
+    @listenTo @model, 'change', @render
+    @listenTo App.currentUser, 'sync', @next_round_rsp
+    @listenTo App.currentUser, 'error', @next_round_error
 
   next_round: (e) ->
     e.preventDefault()
-    console.log 'ready to next round'
+
+    # round_id += 1
+    round_id = App.currentUser.get 'round_id'
+    console.assert round_id != -1
+    App.currentUser.set 'round_id', round_id + 1
+    App.currentUser.save()
+
+
+  next_round_rsp: ->
+    @model.set 'deal', null
+    is_sync = App.currentUser.get 'is_sync'
+    @model.set({is_sync: is_sync, deal: null})
+
+  next_round_error: ->
+    console.log 'next_round_error'
 
   # update statistical information about each user's money
   # show the dialog of next-round button
   group_deal: (group_id, p) ->
-    console.log 'made a deal: ', p
+    deal = 
+      submitter: 'ming',
+      acceptor: 'ming2'
+
+    @model.set 'deal', deal
+
+  group_sync: (round_id) ->
+    @model.set 'is_sync', true
 
   render: ->
-    users = @model.get('users')
-    # @$el.html(@template({'users': users}))
     @$el.html(@template(@model.toJSON()))
     @.$('#opponents').append(@opponents_view.render().el)
     @

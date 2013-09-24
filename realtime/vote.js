@@ -104,6 +104,21 @@ var push_group_deal = function(msg) {
 
 };
 
+var push_group_sync = function(msg) {
+  console.log('group:sync: connections: ', connections.length);
+  
+  var json_msg = JSON.parse(msg);
+  json_msg.channel = 'group:sync';
+  var str_msg = JSON.stringify(json_msg);
+
+  console.log(json_msg);
+
+  __.each(connections, function(c) {
+    c.write(str_msg);
+  });
+  
+};
+
 redis.on('connect', function() {
   console.log('redis connected!');
 });
@@ -129,6 +144,8 @@ redis.on("message", function(channel, msg) {
     push_group_proposal(msg);
   else if (channel == "group:deal")
     push_group_deal(msg);
+  else if (channel == "group:sync")
+    push_group_sync(msg);
   else
     console.error('unknown channel: ', channel);
 
@@ -141,6 +158,7 @@ redis.subscribe("room:leave");
 redis.subscribe("group:start");
 redis.subscribe("group:proposal");
 redis.subscribe("group:deal");
+redis.subscribe("group:sync");
 
 // sockJS related stuff
 var http = require('http');

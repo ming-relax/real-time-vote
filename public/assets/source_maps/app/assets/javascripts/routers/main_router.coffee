@@ -33,12 +33,10 @@ class App.Routers.MainRouter extends Backbone.Router
 
   group: ->
     @layoutViews()
-    if App.currentUser.group_users
-      room_id = App.currentUser.get('room_id')
-      group_id = App.currentUser.get('group_id')
-      group_users = App.currentUser.get('group_users')
-      App.Vent.trigger "group:start", room_id, group_id, group_users
-
+    console.log 'route #group'
+    group_id = App.currentUser.get 'group_id'
+    if group_id isnt -1
+      App.Vent.trigger "group:start"
 
   layoutViews: ->
     $('#header').html(@headerView.render().el)
