@@ -4,18 +4,19 @@
   </p>
 </div>
 
-{{#if deal }}
+
+{{#if new_deal }}
   <div class="row-fluid">
-    <p>A deal is made between {{deal.submitter}} and {{deal.acceptor}}, please press this button to continue </p>
+    <p>A deal is made between {{new_deal.submitter}} and {{new_deal.acceptor}}, please press this button to continue </p>
     <button class="btn" id="next-round">next round</button>
   </div>
 {{/if }}
 
-{{#unless is_sync }}
+{{#if wait_others }}
   <div class="row-fluid">
     <p>wait others to confirm</p>
   </div>
-{{/unless }}
+{{/if }}
 
 
 <div class="row-fluid">
@@ -24,14 +25,14 @@
       <tr>
         <th>#</th>
         {{#each users}}
-          <th>{{ this }}</th>
+          <th>{{ this.username }}</th>
         {{/each}}
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>total_earnings</td>
-        {{#each total_earnigs}}
+        {{#each total_earnings}}
           <td>{{ this }}</td>
         {{/each}}
       </tr>

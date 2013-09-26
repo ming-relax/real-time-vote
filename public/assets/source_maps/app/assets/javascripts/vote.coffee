@@ -9,14 +9,19 @@
 
 
 
+
+
+
+
 window.App =
   Routers: {}
   Views: {}
   Collections: {}
   Models: {}
   Vent: _.clone(Backbone.Events)
-  initialize: (data)-> 
-    App.currentUser = new App.Models.CurrentUser(data.current_user)
+  initialize: (data)->
+    App.currentUser = new App.Models.CurrentUser(data)
     App.listener = new App.Listener()
     new App.Routers.MainRouter()
     Backbone.history.start()
+    

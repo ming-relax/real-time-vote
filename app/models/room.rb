@@ -3,58 +3,76 @@ class Room
     room = JSON.parse($redis.get("rooms:#{i}"))
     room['users']
   end
-
+  # key:    "rooms:#{room_id}"
+  # value:  users: [{user_id: xx, username: xx}, ..]
   def self.set_users(room_id, users)
     $redis.set("rooms:#{room_id}", {:users => users}.to_json)
   end
 
-  def self.join(room_id, user_id)
+  def self.add_user(room_id, user_id, username)
     users = get_users(room_id)
-    if users.length == 3
-      return ['room is full', users]
+    return ['full', users] if users.length == 3
+
+    users.each do |u|
+      return ['rejoin', users] if u['user_id'] == user_id
     end
 
-    users = users.to_set()
-    users.add(user_id)
-    users = users.to_a
-
-    # update redis
+    users << {'user_id' => user_id, 'username' => username}
+    users.sort! {|a, b| a['user_id'] <=> b['user_id'] }    
     set_users(room_id, users)
 
     # update pg
-    u  = User.find(user_id)
+    u = User.find(user_id)
     u.room_id = room_id
-    u.save!
+    u.save! 
+    return [nil, users]
+  end
+
+
+  def self.join(room_id, user_id, username)
+
+    err, users = add_user(room_id, user_id, username)
+    return [err, users, nil] if err
 
     # Push message
-    Pusher.join(room_id, user_id)
-    g_id = -1
+    Pusher.join(room_id, user_id, username)
+
+    group_info = nil
     if users.length == 3
       # create group and push start msg to group members
       g = Group.create(room_id: room_id, 
                        round_id: 0, 
                        moneys: [0, 0, 0],
                        betray_penalty: Group.betray_penalty())
-      g_id = g.id
-      group_users = []
-      users.each do |u_id|
-        u = User.find(u_id)
-        u.group_id = g.id
-        u.round_id = 0
-        u.save!
-        group_users << u.id
+      group_info = {}
+      group_info[:id] = g.id
+      group_info[:users] = []
+
+      users.each do |u|
+        user = User.find(u['user_id'])
+        user.group_id = g.id
+        user.round_id = 0
+        user.save!
+        group_info[:users] << {:id => user.id, :username => user.username }
       end
 
-      Pusher.start(room_id, g.id, group_users)
+      group_info[:round_id] = g.round_id
+      group_info[:moneys] = g.moneys
+      group_info[:betray_penalty] = g.betray_penalty
+
+      Pusher.start(room_id, user_id, g.id, group_info)
     end
 
-    [nil, users, g_id]
+    [nil, users, group_info]
   end
 
   def self.leave(room_id, user_id)
     users = get_users(room_id)
-    users.select! {|u| u != user_id}
-    
+
+    users.select! do |u|
+      u['user_id'] != user_id
+    end
+
     # update redis
     set_users(room_id, users)
 

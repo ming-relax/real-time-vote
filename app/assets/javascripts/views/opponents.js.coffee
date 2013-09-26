@@ -6,9 +6,20 @@ class App.Views.Opponent extends Backbone.View
     'click #accept': 'accept_proposal'
 
   initialize: ->
+
     @my_proposal = new App.Models.Proposal()
+    @opponent_proposal = new App.Models.Proposal()
+
     @listenTo @my_proposal, 'sync', @submit_success
-    @listenTo @model, 'change:proposal', @change_proposal
+    @listenTo @my_proposal, 'error', @submit_error
+    @listenTo @my_proposal, 'invalid', @submit_invalid
+
+    @listenTo @opponent_proposal, 'sync', @deal_success
+    @listenTo @opponent_proposal, 'error', @deal_error
+    @listenTo @opponent_proposal, 'invalid', @opponent_invalid
+        
+    # @listenTo @model, 'change:proposal', @change_proposal
+
 
   submit_proposal: (e) ->
     e.preventDefault()
@@ -18,11 +29,12 @@ class App.Views.Opponent extends Backbone.View
       moneys.push(parseInt(e.value, 10))
 
     # setup proposal info
+    
     @my_proposal.set('id', null)
-    @my_proposal.set('group_id', App.currentUser.get('group_id'))
+    @my_proposal.set('group_id', App.currentUser.group_id())
     @my_proposal.set('round_id', App.currentUser.get('round_id'))
     @my_proposal.set('submitter', App.currentUser.get('id'))
-    @my_proposal.set('acceptor', @model.get('opponent_id'))
+    @my_proposal.set('acceptor', @model.get('id'))
     @my_proposal.set('moneys', moneys)
     @my_proposal.set('accepted', false)
     @my_proposal.set('submitter_penalty', 0)
@@ -35,29 +47,58 @@ class App.Views.Opponent extends Backbone.View
   submit_success: ->
     console.log 'submit success'
 
-  change_proposal: ->
-    p = @model.get 'proposal'
-    if p.accepted is false
-      @receive_proposal p
-    else
-      console.log 'p.accepted is true'
+  submit_error: ->
+    console.log 'submit error'
+
+  submit_invalid: (model, error) ->
+    console.log 'submit invalid: ', error
+
+  deal_success: ->
+    deal = @opponent_proposal.get('deal')
+
+    App.currentUser.set_deal(deal)
+
+    console.log @opponent_proposal.toJSON()
+
+    @opponent_proposal.set('deal', null)
+
+  deal_error: ->
+    console.log 'deal error'
+
+  opponent_invalid: (model, error) ->
+    console.log 'opponent_proposal invalid: ', error
+
+  # change_proposal: ->
+  #   p = @model.get 'proposal'
+  #   if p.accepted is false
+  #     console.log 'p.accepted is false'
+  #     @receive_proposal p
+  #   else
+  #     console.log 'p.accepted is true'
 
 
   receive_proposal: (p) ->
-    $td = @$('#opponent td');    
+    @opponent_proposal.set(p)
+    # console.log 'receive_proposal: ', @model.get('id')
+    # console.log 'receive_proposal: ', @opponent_proposal.toJSON()
+
+    $td = @$('#opponent td');
     $td[1].textContent = p.moneys[0]
     $td[2].textContent = p.moneys[1]
     $td[3].textContent = p.moneys[2]
 
-    $td.effect("highlight", {}, 3000);
+    $td.effect("highlight", {}, 3000)
+
+    console.log 'receive_proposal done'
+
+    # console.log @el
 
   accept_proposal: (e) ->
     e.preventDefault()
-    proposal = @model.get 'proposal'
-    proposal.accepted = true
-    p = new App.Models.Proposal(proposal)
-    p.save()
-    console.log p.toJSON()
+    @opponent_proposal.set({accepted: true})
+
+    @opponent_proposal.save()
+    console.log @opponent_proposal.toJSON()
     console.log 'accept proposal'
 
   render: ->
@@ -68,11 +109,28 @@ class App.Views.Opponent extends Backbone.View
 class App.Views.Opponents extends Backbone.View
   template: HandlebarsTemplates['opponents']
 
+  initialize: ->
+    @opponents = []
+    @listenTo App.Vent, 'push:group:proposal', @receive_proposal
+  
   render: ->
+    # clear it before create new Views
+    @opponents = []
     @$el.html(@template())
-    @collection.forEach @renderOpponent, @
+    @collection.forEach @addOpponent, @
     @
 
-  renderOpponent: (model) ->
+  addOpponent: (model) ->
     v = new App.Views.Opponent({model: model})
+    @opponents.push(v)
     @.$('.thumbnails').append(v.render().el)
+
+  receive_proposal: (group_id, proposal) ->
+    console.log 'receive_proposal: opponents: ', @opponents.length
+    opponent = _.find(@opponents, (v) ->
+      v.model.get('id') is proposal.submitter)
+
+    console.assert opponent isnt null
+
+    if opponent
+      opponent.receive_proposal(proposal)

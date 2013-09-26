@@ -26,11 +26,11 @@ class Group < ActiveRecord::Base
         raise 'Not possible'
       end
 
-      if (last_decision.from == this_id && last_decision.to != other_id)
+      if (last_decision.submitter == this_id && last_decision.acceptor != other_id)
         return self.betray_penalty
       end
 
-      if (last_decision.to == this_id && last_decision.from != other_id)
+      if (last_decision.acceptor == this_id && last_decision.submitter != other_id)
         return self.betray_penalty
       end
 

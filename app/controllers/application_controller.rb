@@ -22,7 +22,15 @@ class ApplicationController < ActionController::Base
     def last_deal(group)
       return nil if group.round_id == 0
       Proposal.where('group_id = ? AND round_id = ? AND accepted = ?',
-                      group.id, group.round_id - 1, true)
+                      group.id, group.round_id - 1, true).first
+
+    end
+
+    def current_deal(group)
+      return nil if group.round_id == nil
+      Proposal.where('group_id = ? AND round_id = ? AND accepted = ?',
+                      group.id, group.round_id, true).first
+
     end
 
     def group_users

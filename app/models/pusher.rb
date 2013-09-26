@@ -1,8 +1,12 @@
 class Pusher
 
-  def self.join(room_id, user_id)
-    publish "global:join", {:room_id => room_id, :user_id => user_id }
-    publish "room:join", {:room_id => room_id, :user_id => user_id }
+  def self.join(room_id, user_id, username)
+    publish "global:join", {:room_id => room_id, 
+                            :user_id => user_id,
+                            :username => username }
+    publish "room:join", {:room_id => room_id, 
+                          :user_id => user_id,
+                          :username => username}
   end
 
   def self.leave(room_id, user_id)
@@ -10,8 +14,11 @@ class Pusher
     publish "room:leave", {:room_id => room_id, :user_id => user_id }
   end
 
-  def self.start(room_id, group_id, group_users)
-    publish "group:start", {:room_id => room_id, :group_id => group_id, :group_users => group_users }
+  def self.start(room_id, user_id, group_id, group_info)
+    publish "group:start", {:room_id => room_id,
+                            :user_id => user_id,
+                            :group_id => group_id, 
+                            :group_info => group_info }
   end
 
   def self.proposal(p)

@@ -1,10 +1,20 @@
 class App.Models.Room extends Backbone.Model
 
+  defaults:
+    user_id: null
+    username: null
+    join: false
+    users: []
+    group: null
+
+
+
   # I am joining
   join: ->
     return null if @isFull()
-
-    @set {"user_id": App.currentUser.id, "join": true}
+    user_id = App.currentUser.get('id')
+    username = App.currentUser.get('username')
+    @set {user_id: user_id, username: username, "join": true}
     @save null, success: (model, response, option) =>      
       App.Vent.trigger 'rooms:joined', @get 'id'
 
@@ -17,14 +27,14 @@ class App.Models.Room extends Backbone.Model
       App.Vent.trigger 'rooms:leaved', @get 'id'
 
 
-  add_new_user: (user_id) ->
+  add_new_user: (user_id, username) ->
     users = @get 'users'
-    users.push user_id
-    _.unique users
-
+    users.push {id: user_id, username: username}
+    return users
+    
   # other is joing
-  otherJoin: (user_id) ->
-    users = @add_new_user user_id
+  otherJoin: (user_id, username) ->
+    users = @add_new_user(user_id, username)
     console.log users
     @set "users": users
     @trigger 'change'
@@ -36,8 +46,8 @@ class App.Models.Room extends Backbone.Model
     @set 'users', users
     @trigger 'change'
 
-  playerJoin: (user_id) ->
-    users = @add_new_user user_id
+  playerJoin: (user_id, username) ->
+    users = @add_new_user user_id, username
     @set 'users', users
     @trigger 'change'
 
@@ -63,14 +73,14 @@ class App.Collections.Rooms extends Backbone.Collection
     @listenTo App.Vent, 'push:room:join', @playerJoin
     @listenTo App.Vent, 'push:room:leave', @playerLeave
 
-  otherJoin: (room_id, user_id) ->
-    @get(room_id).otherJoin(user_id)
+  otherJoin: (room_id, user_id, username) ->
+    @get(room_id).otherJoin(user_id, username)
 
   otherLeave: (room_id, user_id) ->
     @get(room_id).otherLeave(user_id)
 
-  playerJoin: (room_id, user_id) ->
-    @get(room_id).playerJoin(user_id)
+  playerJoin: (room_id, user_id, username) ->
+    @get(room_id).playerJoin(user_id, username)
 
   playerLeave: (room_id, user_id) ->
     @get(room_id).playerLeave(user_id)

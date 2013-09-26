@@ -4,19 +4,24 @@
 
 #= require_self
 #= require listener
-#= require_tree ./models
+#= require ./models/proposal
+#= require ./models/group
+#= require ./models/opponents
+#= require ./models/login
+#= require ./models/rooms
+#= require ./models/current_user
 #= require_tree ./templates
 #= require_tree ./views
 #= require_tree ./routers
-
 window.App =
   Routers: {}
   Views: {}
   Collections: {}
   Models: {}
   Vent: _.clone(Backbone.Events)
-  initialize: (data)-> 
-    App.currentUser = new App.Models.CurrentUser(data.current_user)
+  initialize: (data)->
+    App.currentUser = new App.Models.CurrentUser(data)
     App.listener = new App.Listener()
     new App.Routers.MainRouter()
     Backbone.history.start()
+    

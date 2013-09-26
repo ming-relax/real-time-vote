@@ -162,7 +162,9 @@ proposals
 	id, submitter, acceptor, moneys[3], accepted?, submitter_penaty, acceptor_penalty, group_id, round_id
 	
 	
-##realtime consideration
+##system consideration
+###0) all events should be handled by Backbone.Views; both UI event or custom defined events
+
 ###1) the one who initiate **push** should not process the **push** message
 
 

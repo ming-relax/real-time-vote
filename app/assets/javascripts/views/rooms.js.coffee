@@ -37,24 +37,19 @@ class App.Views.Room extends Backbone.View
   joinOrLeaveSuccess: ->
     if @isJoin()
       @render true
-      group_users = @model.get('users')
-      group_users.sort()
-      App.currentUser.set 'group_users', group_users
-      if group_users.length is 3
-        group_id = @model.get('group_id')
-        round_id = @model.get('round_id')
-        App.currentUser.set 'group_id', group_id
-        App.currentUser.set 'round_id', round_id
+      group = @model.get('group')
+      console.log 'join: ', group
+      if group
+        App.currentUser.set({group_id: group.id, round_id: group.round_id})
+        App.currentUser.set_group(group)
         App.Vent.trigger 'group:start'
+
     else
       @render false
 
 
   isJoin: ->
-    users = @model.get('users')
-    user_id = @model.get('user_id')
-    return (-1 != _.indexOf(users, user_id))
-
+    return @model.get('join')
 
 class App.Views.Rooms extends Backbone.View
 

@@ -3,25 +3,21 @@ class App.Models.CurrentUser extends Backbone.Model
     username: ''
     loggedIn: false
     room_id: -1
-    group_id: -1
     round_id: -1
+
+    # my total earning
     total_earning: null
+
+    # group sync flag
     is_sync: true
-    group:
-      round_id: null
-      moneys: null
-      betray_penalty: null
-      last_deal:
-        submitter: null
-        acceptor: null
-        moneys: null
-        submitter_penalty: null
-        acceptor_penalty: null
+    group: null
   }
 
   urlRoot: '/users'  
+  
+  initialize: (data) ->
+    @set('group', new App.Models.Group(data.group))
     
-  initialize: ->
     @listenTo App.Vent, "user:logged_in", @logged_in
     @listenTo App.Vent, "user:logged_out", @logged_out
 
@@ -41,3 +37,40 @@ class App.Models.CurrentUser extends Backbone.Model
           delete @attributes.id
           window.csrf(data.csrf)
           App.Vent.trigger "vote:init"
+  
+  # isMyselfSync: ->
+  #   my_round_id = @get('round_id')
+  #   group_round_id = @get('group').get('round_id')
+  #   if my_round_id is group_round_id
+  #     return true
+  #   else
+  #     return false
+
+  # isGroupSync: ->
+  #   return @get('is_sync')
+
+  group: ->
+    g = @get('group')
+
+  group_users: ->
+    @get('grouop').get('users')
+
+  group_id: ->
+    g = @get('group')
+    if g
+      return g.id
+    else
+      return -1
+
+  opponents: ->
+    me = @get('id')
+    users = @get('group').get('users')
+    return _.filter users, (u) -> u.id != me
+
+  set_group: (group) ->
+    @get('group').set(group)
+
+
+  set_deal: (p) ->
+    @get('group').group_deal(p)
+    
