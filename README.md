@@ -7,19 +7,29 @@
 ## 系统架构
 ![alt text][logo]
 [logo]: ./arch.png
+
+   Node.js 负责推送消息；
+   
+   Rails 和 Backbone.js 实现业务逻辑； 
+   
+   利用 Redis 的 pub/sub 接口实现消息推送
     	
-## Use Cases
-
-###1. Join a Room
-
-
-	玩家进入一个有空闲位置的房间
 	
-	
+## 设计原则
+
+###0) all events should be handled by Backbone.Views; including UI event and custom defined events
+
+###1) the one who initiate **push** should not process the **push** message
+
+
+###2) so the http response should have all info as if were **pushed** from node.js
+
+
+###3) every browser refresh should get fresh data (kind of like init system state), in case of error happens or user want to fresh.	
 
 ## 协议
 
-### Server ---> Client 
+### Node.js ---> Client 
    
    
    |            Type         |       Message     |      Description    |
@@ -129,8 +139,6 @@
 
 ##Node.js 
 
-
-##Data Model
 Redis的两个用途：
 
     1）pub/sub 实现Node.js向client推送消息
@@ -162,16 +170,7 @@ proposals
 	id, submitter, acceptor, moneys[3], accepted?, submitter_penaty, acceptor_penalty, group_id, round_id
 	
 	
-##system consideration
-###0) all events should be handled by Backbone.Views; both UI event or custom defined events
 
-###1) the one who initiate **push** should not process the **push** message
-
-
-###2) so the http response should have all info as if were **pushed** from node.js
-
-
-###3) every browser refresh should get fresh data (kind of like init system state), in case of error happens or user want to fresh.
 
 ###4) senario to consider:
       join room;

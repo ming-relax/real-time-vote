@@ -18,11 +18,13 @@ class App.Views.Opponent extends Backbone.View
     @listenTo @opponent_proposal, 'error', @deal_error
     @listenTo @opponent_proposal, 'invalid', @opponent_invalid
         
-    # @listenTo @model, 'change:proposal', @change_proposal
-
 
   submit_proposal: (e) ->
     e.preventDefault()
+
+    if App.currentUser.state() isnt "start"
+      return 
+
     $moneys = @.$('form').find('input')
     moneys = []
     $moneys.each (i, e) ->
@@ -46,6 +48,17 @@ class App.Views.Opponent extends Backbone.View
 
   submit_success: ->
     console.log 'submit success'
+    $td = @.$('#me').find('td')
+    moneys = @my_proposal.get('moneys')
+    $td[1].textContent = moneys[0]
+    $td[2].textContent = moneys[1]
+    $td[3].textContent = moneys[2]
+    $td.effect("highlight", {}, 3000);
+
+    $input_moneys = @.$('form').find('input')
+    $input_moneys.each (i, e) ->
+      e.value = ''
+
 
   submit_error: ->
     console.log 'submit error'
@@ -55,26 +68,20 @@ class App.Views.Opponent extends Backbone.View
 
   deal_success: ->
     deal = @opponent_proposal.get('deal')
+    group_moneys = @opponent_proposal.get('group_moneys')
 
-    App.currentUser.set_deal(deal)
+    App.currentUser.set_deal(deal, group_moneys)
 
     console.log @opponent_proposal.toJSON()
 
     @opponent_proposal.set('deal', null)
+    @opponent_proposal.set('group_moneys', null)
 
   deal_error: ->
     console.log 'deal error'
 
   opponent_invalid: (model, error) ->
     console.log 'opponent_proposal invalid: ', error
-
-  # change_proposal: ->
-  #   p = @model.get 'proposal'
-  #   if p.accepted is false
-  #     console.log 'p.accepted is false'
-  #     @receive_proposal p
-  #   else
-  #     console.log 'p.accepted is true'
 
 
   receive_proposal: (p) ->
@@ -95,6 +102,10 @@ class App.Views.Opponent extends Backbone.View
 
   accept_proposal: (e) ->
     e.preventDefault()
+
+    if App.currentUser.state() isnt "start"
+      return
+
     @opponent_proposal.set({accepted: true})
 
     @opponent_proposal.save()
@@ -102,8 +113,14 @@ class App.Views.Opponent extends Backbone.View
     console.log 'accept proposal'
 
   render: ->
+    state = App.currentUser.state()
+    disabled = ""
+    if state isnt "start"
+      disabled = "disabled"
+    else
+      disabled = ""
     users = @model.get('users')
-    @$el.html(@template({users: users}))
+    @$el.html(@template({users: users, disabled: disabled}))
     @
 
 class App.Views.Opponents extends Backbone.View

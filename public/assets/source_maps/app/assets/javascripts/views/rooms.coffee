@@ -6,7 +6,6 @@ class App.Views.Room extends Backbone.View
 
   events:
     "click": "triggerRoomsChange"
-    "mouseover": "hoverRoom"
 
   initialize: ->
     @listenTo @model, 'error', @joinOrLeaveFail
@@ -25,11 +24,9 @@ class App.Views.Room extends Backbone.View
     
   triggerRoomsChange: (e) ->
     e.preventDefault()
-    App.Vent.trigger "rooms:change", @model.get('id')
+    if App.currentUser.is_loggedIn()
+      App.Vent.trigger "rooms:change", @model.get('id')
 
-  hoverRoom: (e) ->
-    # console.log 'hover'
-    # @$el.css('background-color', "hsla(300, 20%, 50%, 0.8)");
 
 
   joinOrLeaveFail: ->

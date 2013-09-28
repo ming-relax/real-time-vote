@@ -2,7 +2,7 @@ class Proposal < ActiveRecord::Base
   belongs_to :group
   validates_presence_of :group_id, :round_id, :submitter, :acceptor, :moneys, :submitter_penalty, :acceptor_penalty
   validates_inclusion_of :accepted, :in => [true, false]
-  after_commit :push_decision, :on => :update
+  # after_commit :push_decision, :on => :update
   after_rollback :accept_fail
 
   # use redis to store accepted proposal
@@ -27,7 +27,7 @@ class Proposal < ActiveRecord::Base
     return "error:round:over" if current_round_is_over?(params[:round_id], params[:group_id])
     
     proposal = nil
-
+    new_monyes = [0, 0, 0]
     self.transaction do
       proposal = Proposal.find(params[:id])
 
@@ -37,15 +37,20 @@ class Proposal < ActiveRecord::Base
       submitter_penalty, acceptor_penalty, moneys = g.update_earnings(proposal)
 
       # update group
-      g.update_attributes!(:round_id => g.round_id + 1,
-                           :moneys => moneys)      
+      
+      g.moneys.each_index do |i|
+        new_monyes[i] = g.moneys[i] + moneys[i]
+      end
+      g.update!(moneys: new_monyes, 
+               round_id: g.round_id + 1)      
+
       # update proposal
-      proposal.update_attributes!(:accepted => true,
-                                  :submitter_penalty => submitter_penalty,
-                                  :acceptor_penalty => acceptor_penalty)
+      proposal.update!(accepted: true, 
+                       submitter_penalty: submitter_penalty, 
+                       acceptor_penalty: acceptor_penalty)
     end
 
-    return proposal    
+    return [proposal, new_monyes]    
   end
 
   def push_decision

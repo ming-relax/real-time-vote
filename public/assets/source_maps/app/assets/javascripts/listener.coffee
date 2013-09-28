@@ -25,7 +25,7 @@ class App.Listener
 
         when 'group:proposal' then @group_proposal msg.group_id, msg.proposal
 
-        when 'group:deal' then @group_deal msg.group_id, msg.proposal
+        when 'group:deal' then @group_deal msg.group_id, msg.proposal, msg.group_moneys
 
         when 'group:sync' then @group_sync msg.user_id, msg.group_id, msg.round_id
 
@@ -92,10 +92,10 @@ class App.Listener
       console.log "group:proposal group_id: #{group_id}, proposal: ", proposal
       App.Vent.trigger 'push:group:proposal', group_id, proposal
 
-  group_deal: (group_id, proposal) ->
+  group_deal: (group_id, proposal, group_moneys) ->
     if @isMyGroup(group_id) and @isntMyself(proposal.acceptor)
       console.log "group:deal group_id: #{group_id}, proposal: ", proposal
-      App.Vent.trigger 'push:group:deal', group_id, proposal
+      App.Vent.trigger 'push:group:deal', group_id, proposal, group_moneys
 
   group_sync: (user_id, group_id, round_id) ->
     console.log "group:sync group_id: #{group_id}, round_id: #{round_id}" 

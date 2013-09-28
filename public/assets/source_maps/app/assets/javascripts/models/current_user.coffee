@@ -9,7 +9,9 @@ class App.Models.CurrentUser extends Backbone.Model
     total_earning: null
 
     # group sync flag
-    is_sync: true
+    is_group_sync: true
+    is_myself_sync: true
+    
     group: null
   }
 
@@ -17,7 +19,8 @@ class App.Models.CurrentUser extends Backbone.Model
   
   initialize: (data) ->
     @set('group', new App.Models.Group(data.group))
-    
+    console.log 'sys inint: ', data.group
+
     @listenTo App.Vent, "user:logged_in", @logged_in
     @listenTo App.Vent, "user:logged_out", @logged_out
 
@@ -38,16 +41,6 @@ class App.Models.CurrentUser extends Backbone.Model
           window.csrf(data.csrf)
           App.Vent.trigger "vote:init"
   
-  # isMyselfSync: ->
-  #   my_round_id = @get('round_id')
-  #   group_round_id = @get('group').get('round_id')
-  #   if my_round_id is group_round_id
-  #     return true
-  #   else
-  #     return false
-
-  # isGroupSync: ->
-  #   return @get('is_sync')
 
   group: ->
     g = @get('group')
@@ -56,11 +49,22 @@ class App.Models.CurrentUser extends Backbone.Model
     @get('grouop').get('users')
 
   group_id: ->
-    g = @get('group')
-    if g
-      return g.id
+    return@get('group').get('id')
+
+  is_group_valid: ->
+    loggedIn = @get('loggedIn')
+
+    return false if loggedIn is false
+
+    g_id = @group_id()
+    if g_id >= 0
+      return true
     else
-      return -1
+      return false
+
+
+  is_loggedIn: ->
+    return @get('loggedIn')
 
   opponents: ->
     me = @get('id')
@@ -71,6 +75,11 @@ class App.Models.CurrentUser extends Backbone.Model
     @get('group').set(group)
 
 
-  set_deal: (p) ->
-    @get('group').group_deal(p)
+  set_deal: (p, group_moneys) ->
+    @get('group').group_deal(p, group_moneys)
+
+  state: ->
+    g = @get('group')
+    return "invalid" if g is null
+    return g.get('state')
     

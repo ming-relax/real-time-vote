@@ -28,15 +28,19 @@ class App.Routers.MainRouter extends Backbone.Router
 
   # Load room page
   rooms: ->
-    @layoutViews()
-    App.Vent.trigger "rooms:init"
+    if App.currentUser.is_group_valid()
+      App.Vent.trigger 'group:start'
+    else
+      @layoutViews()
+      App.Vent.trigger "rooms:init"
 
   group: ->
     @layoutViews()
     console.log 'route #group'
-    group_id = App.currentUser.get 'group_id'
-    if group_id isnt -1
+    if App.currentUser.is_group_valid()
       App.Vent.trigger "group:start"
+    else
+      App.Vent.trigger "room:init"
 
   layoutViews: ->
     $('#header').html(@headerView.render().el)

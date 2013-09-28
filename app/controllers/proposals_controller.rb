@@ -19,17 +19,19 @@ class ProposalsController < ApplicationController
     #   respond_with({:err => 'accept error'})      
     # end
 
-    @proposal = Proposal.accept_proposal(params[:proposal])
-    Pusher.deal(@proposal)
+    @proposal, @group_moneys = Proposal.accept_proposal(params[:proposal])
+
+    Pusher.deal(@proposal, @group_moneys)
     
-    respond_with(@proposal)
+    respond_with(@proposal, @group_moneys)
      
   end
 
   private
 
   def proposal_param
-    params.require(:proposal).permit(:group_id, 
+    params.require(:proposal).permit(:id,
+                                     :group_id, 
                                      :round_id, 
                                      :submitter, 
                                      :acceptor, 

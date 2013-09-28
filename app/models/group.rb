@@ -2,6 +2,7 @@ class Group < ActiveRecord::Base
   has_many :users
   has_many :proposals
 
+
   def self.betray_penalty
     0
   end
@@ -44,28 +45,29 @@ class Group < ActiveRecord::Base
     acceptor_penalty = 0
     users = self.users
     users.sort! { |a, b| a.id <=> b.id }
+    moneys = [0, 0, 0]
     users.each_index do |i|
       users[i].total_earning += p.moneys[i]
-      self.moneys[i] += p.moneys[i]
+      moneys[i] = p.moneys[i]
 
       if users[i].id == p.acceptor
         acceptor_penalty = penalty(p.acceptor, p.submitter, p.round_id)
         users[i].total_earning -= acceptor_penalty
-        self.moneys[i] -= acceptor_penalty
+        moneys[i] -= acceptor_penalty
       end
 
       if users[i].id == p.submitter
         # submiter_penalty = penalty_for_submiter(from_id, to_id, round_id)
         submitter_penalty = penalty(p.submitter, p.acceptor, p.round_id)
         users[i].total_earning -= submitter_penalty
-        self.moneys[i] -= submitter_penalty
+        moneys[i] -= submitter_penalty
       end
 
       users[i].save!
       
     end
 
-    [submitter_penalty, acceptor_penalty, self.moneys]
+    [submitter_penalty, acceptor_penalty, moneys]
 
   end
 

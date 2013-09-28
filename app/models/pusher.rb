@@ -34,7 +34,7 @@ class Pusher
   end
 
 
-  def self.deal(p)
+  def self.deal(p, group_moneys)
 
     publish("group:deal",
             { :group_id => p.group_id, 
@@ -46,7 +46,8 @@ class Pusher
                             :moneys => p.moneys,
                             :accepted => p.accepted,
                             :submitter_penalty => p.submitter_penalty,
-                            :acceptor_penalty => p.acceptor_penalty}})
+                            :acceptor_penalty => p.acceptor_penalty},
+              :group_moneys => group_moneys})
   end
 
 

@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   belongs_to :group
   authenticates_with_sorcery!
 
-  # return round_id if synced
+  # return [user, group_sync, myself_sync ]
   def self.next_round(id)
     user = User.find(id)
     
@@ -14,9 +14,9 @@ class User < ActiveRecord::Base
 
     if Group.round_id_sync?(user.group_id)
       Pusher.group_sync(user.id, user.group_id, user.round_id)
-      return [user, true]
+      return [user, true, true]
     else
-      return [user, false]
+      return [user, false, true]
     end
 
   end

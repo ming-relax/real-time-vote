@@ -11,27 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130923070457) do
+ActiveRecord::Schema.define(version: 20130928120551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "groups", force: true do |t|
-    t.integer "room_id"
-    t.integer "round_id"
-    t.integer "betray_penalty"
-    t.integer "moneys",         array: true
+    t.integer  "room_id"
+    t.integer  "round_id"
+    t.integer  "betray_penalty"
+    t.integer  "moneys",         array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "proposals", force: true do |t|
-    t.integer "group_id"
-    t.integer "round_id"
-    t.integer "submitter"
-    t.integer "acceptor"
-    t.integer "moneys",            array: true
-    t.boolean "accepted"
-    t.integer "submitter_penalty"
-    t.integer "acceptor_penalty"
+    t.integer  "group_id"
+    t.integer  "round_id"
+    t.integer  "submitter"
+    t.integer  "acceptor"
+    t.boolean  "accepted"
+    t.integer  "submitter_penalty"
+    t.integer  "acceptor_penalty"
+    t.integer  "moneys",            array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

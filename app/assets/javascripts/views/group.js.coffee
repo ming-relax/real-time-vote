@@ -37,8 +37,8 @@ class App.Views.Group extends Backbone.View
 
 
   next_round_rsp: ->
-    is_sync = App.currentUser.get('is_sync')
-    if is_sync
+    is_group_sync = App.currentUser.get('is_group_sync')
+    if is_group_sync
       @model.group_sync(App.currentUser.get('round_id'))
     else
       @model.group_wait()
@@ -51,8 +51,8 @@ class App.Views.Group extends Backbone.View
   # update these: 
   # 1) deal.submitter, deal.acceptor; 2) total_earnings, last_earnings
   # show the dialog of next-round button
-  group_deal: (group_id, p) ->
-    @model.group_deal(p)
+  group_deal: (group_id, p, group_moneys) ->
+    @model.group_deal(p, group_moneys)
 
   group_sync: (round_id) ->
     @model.group_sync(round_id)
@@ -71,6 +71,7 @@ class App.Views.Group extends Backbone.View
   render: ->
     console.log 'render_group'
     current_deal = @model.get('current_deal')
+    last_deal = @model.get('last_deal')
     new_deal = null
     wait_others = false
     group_state = @model.get('state')
@@ -78,7 +79,6 @@ class App.Views.Group extends Backbone.View
     if group_state is "start"
       new_deal = null
       wait_others = false
-      last_deal = @model.get('last_deal')
       if last_deal
         last_earnings = last_deal.moneys
       else
@@ -91,7 +91,7 @@ class App.Views.Group extends Backbone.View
     else if group_state is "wait_others"
       new_deal = null
       wait_others = true
-      last_earnings = current_deal.moneys
+      last_earnings = last_deal.moneys
     @$el.html(@template(
       {
         round_id: @model.get('round_id'),
