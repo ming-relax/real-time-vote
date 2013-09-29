@@ -62,12 +62,12 @@ namespace :deploy do
 
   desc "start redis"
   task :redis do
-    run "cd #{current_path}; redis-server"
+    run "cd #{current_path}; redis-server &"
   end
 
   desc "start node"
   task :node do
-    run "cd #{current_path}; cd realtime; node vote.js"
+    run "cd #{current_path}; cd realtime; node vote.js &"
   end
 
 end
