@@ -8,8 +8,7 @@ development:
   database: vote_dev
   pool: 5
   timeout: 5000
-  host: localhost
-  username: huming
+
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -19,12 +18,10 @@ test:
   database: vote_test
   pool: 5
   timeout: 5000
-  host: localhost
-  username: huming
+
 
 production:
   adapter: postgresql
   database: vote_prod
   pool: 5
   timeout: 5000
-  username: huming
