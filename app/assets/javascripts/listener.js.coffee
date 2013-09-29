@@ -54,27 +54,29 @@ class App.Listener
   isOtherPlayer: (room_id, user_id) ->
     current_room_id = App.currentUser.get 'room_id'
     current_user_id = App.currentUser.id
-    return user_id and user_id isnt current_user_id and room_id and room_id is current_room_id
+    return user_id isnt current_user_id and room_id is current_room_id
 
+  # room_id is not my room_id
   global_join: (room_id, user_id, username) -> 
-    console.log "global:join room_id: #{room_id} user_id: #{user_id}, current_user: #{App.currentUser.id}"
-    if @isntMyself user_id      
+    if @isntMyself(user_id) and !@isMyRoom(room_id)
+      console.log "global:join room_id: #{room_id} user_id: #{user_id}, current_user: #{App.currentUser.id}" 
       App.Vent.trigger "push:global:join", room_id, user_id, username
 
+  # room_id is not my room_id
   global_leave: (room_id, user_id) ->
-    console.log "global:leave room_id: #{room_id} user_id: #{user_id}, current_user: #{App.currentUser.id}"
-    if @isntMyself user_id
+    if @isntMyself(user_id) and !@isMyRoom(room_id)
+      console.log "global:leave room_id: #{room_id} user_id: #{user_id}, current_user: #{App.currentUser.id}"
       App.Vent.trigger 'push:global:leave', room_id, user_id
 
 
   room_join: (room_id, user_id, username) ->
-    console.log "room:join room_id: #{room_id} user_id: #{user_id}, current_user: #{App.currentUser.id}"
     if @isOtherPlayer room_id, user_id
+      console.log "room:join room_id: #{room_id} user_id: #{user_id}, current_user: #{App.currentUser.id}"
       App.Vent.trigger 'push:room:join', room_id, user_id, username
 
   room_leave: (room_id, user_id) ->
-    console.log "room:leave room_id: #{room_id} user_id: #{user_id}, current_user: #{App.currentUser.id}"
     if @isOtherPlayer room_id, user_id
+      console.log "room:leave room_id: #{room_id} user_id: #{user_id}, current_user: #{App.currentUser.id}"
       App.Vent.trigger 'push:room:leave', room_id, user_id
 
   # when the msg pushed user may not get rooms' response
@@ -92,10 +94,10 @@ class App.Listener
       console.log "group:proposal group_id: #{group_id}, proposal: ", proposal
       App.Vent.trigger 'push:group:proposal', group_id, proposal
 
-  group_deal: (group_id, proposal, group_moneys) ->
-    if @isMyGroup(group_id) and @isntMyself(proposal.acceptor)
-      console.log "group:deal group_id: #{group_id}, proposal: ", proposal
-      App.Vent.trigger 'push:group:deal', group_id, proposal, group_moneys
+  group_deal: (group_id, deal, group_moneys) ->
+    if @isMyGroup(group_id) and @isntMyself(deal.acceptor)
+      console.log "group:deal group_id: #{group_id}, deal: ", deal
+      App.Vent.trigger 'push:group:deal', group_id, deal, group_moneys
 
   group_sync: (user_id, group_id, round_id) ->
     console.log "group:sync group_id: #{group_id}, round_id: #{round_id}" 

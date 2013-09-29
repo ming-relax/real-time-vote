@@ -4,7 +4,7 @@ class App.Views.Content extends Backbone.View
   template: HandlebarsTemplates['content']  
   
   initialize: ->
-    @listenTo App.Vent, "vote:init", @swapToIndex
+    # @listenTo App.Vent, "vote:init", @swapToIndex
 
     # fetch room data
     @listenTo App.Vent, "rooms:init", @initRooms
@@ -16,13 +16,10 @@ class App.Views.Content extends Backbone.View
     # we have enough pepole, let's show the game page
     @listenTo App.Vent, 'group:start', @swapGroup
 
-  swapToIndex: ->
-    @swapSubView(new App.Views.Index())
-    Backbone.history.navigate("/")
-
 
   initRooms: ->
-    new App.Views.Rooms({collection: new App.Collections.Rooms()})
+    App.rooms = new App.Collections.Rooms()
+    new App.Views.Rooms({collection: App.rooms})
 
   swapGroup: ->
     console.log 'content swapGroup'
@@ -34,6 +31,7 @@ class App.Views.Content extends Backbone.View
     console.log 'group_init done!'
 
   swapToRooms: (v) ->
+    console.log 'swapToRooms'
     @swapSubView(v)
     Backbone.history.navigate("/rooms")
 

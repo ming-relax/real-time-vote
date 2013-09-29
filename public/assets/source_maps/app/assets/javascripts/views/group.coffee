@@ -3,6 +3,7 @@ class App.Views.Group extends Backbone.View
   tagName: 'group'
   events:
     'click #next-round': 'next_round'
+    'click #exit': 'exit_group'
 
   initialize: ->
     current_user_id = App.currentUser.get('id')
@@ -18,14 +19,29 @@ class App.Views.Group extends Backbone.View
 
     @opponents_view = new App.Views.Opponents({collection: opponents_collection})
 
+    @listenTo @model, 'change', @render
+    @listenTo @model, 'sync', @exit_group_success
+    @listenTo @model, 'error', @exit_group_error
 
     @listenTo App.Vent, 'push:group:deal', @group_deal
     @listenTo App.Vent, 'push:group:sync', @group_sync
-    @listenTo @model, 'change', @render
+
     @listenTo App.currentUser, 'sync', @next_round_rsp
     @listenTo App.currentUser, 'error', @next_round_error
     
     @model.init_group_state()
+
+  exit_group: (e) ->
+    e.preventDefault()
+    @model.set 'user_id', App.currentUser.get('id')
+    @model.save()
+    console.log 'exit_group'
+
+  exit_group_success: ->
+    App.currentUser.exit_group(myself:true)
+
+  exit_group_error: ->
+    console.log 'exit_group_error'
 
   next_round: (e) ->
     e.preventDefault()
@@ -51,8 +67,8 @@ class App.Views.Group extends Backbone.View
   # update these: 
   # 1) deal.submitter, deal.acceptor; 2) total_earnings, last_earnings
   # show the dialog of next-round button
-  group_deal: (group_id, p, group_moneys) ->
-    @model.group_deal(p, group_moneys)
+  group_deal: (group_id, deal, group_moneys) ->
+    @model.group_deal(deal, group_moneys)
 
   group_sync: (round_id) ->
     @model.group_sync(round_id)
@@ -95,6 +111,7 @@ class App.Views.Group extends Backbone.View
     @$el.html(@template(
       {
         round_id: @model.get('round_id'),
+        betray_penalty: @model.get('betray_penalty')
         users: @model.get('users'), 
         wait_others: wait_others,
         new_deal: new_deal

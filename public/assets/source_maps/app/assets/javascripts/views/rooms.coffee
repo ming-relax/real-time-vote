@@ -29,7 +29,13 @@ class App.Views.Room extends Backbone.View
 
 
 
-  joinOrLeaveFail: ->
+  joinOrLeaveFail: (model, xhr, options) ->
+    console.log xhr
+    if @isJoin()
+      alert "join Error"
+    else
+      alert "Leave Fail" 
+
 
   joinOrLeaveSuccess: ->
     if @isJoin()

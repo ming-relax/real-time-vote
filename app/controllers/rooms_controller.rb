@@ -10,7 +10,7 @@ class RoomsController < ApplicationController
 
   def update
     if (params[:user_id] == nil)
-      render status:422
+      render :json => { :errors => "user_id null" }, :status => 422
       return false
     end
 
@@ -20,10 +20,14 @@ class RoomsController < ApplicationController
     
     if params[:join] == true
       err, @users, @group_info = Room.join(room_id, user_id, username)
-      render status:422 if err
+      if err
+        render :json => { :errors => err }, :status => 422
+      end
     else
       err, @users = Room.leave(room_id, user_id)
-      render status:422 if err
+      if err
+        render :json => { :errors => err }, :status => 422
+      end
     end
   end
 

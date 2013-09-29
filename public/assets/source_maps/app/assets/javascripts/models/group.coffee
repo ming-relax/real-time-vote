@@ -16,6 +16,8 @@ class App.Models.Group extends Backbone.Model
       # start, deal, wait_others
       state: "invalid"
 
+    urlRoot: '/groups'
+
     init_group_state: ->
       current_deal = @get 'current_deal' 
       is_group_sync = App.currentUser.get 'is_group_sync'

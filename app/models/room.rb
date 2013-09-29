@@ -43,7 +43,7 @@ class Room
       g = Group.create(room_id: room_id, 
                        round_id: 0, 
                        moneys: [0, 0, 0],
-                       betray_penalty: Group.betray_penalty())
+                       betray_penalty: Group.generate_penalty())
       group_info = {}
       group_info[:id] = g.id
       group_info[:users] = []

@@ -4,10 +4,10 @@ class App.Views.Login extends Backbone.View
   events:
     "click button": "login"
 
-
   initialize: ->
     @listenTo @model, 'error', @renderError
     @listenTo @model, 'sync', @triggerLogin
+    
 
   render: ->
     @$el.html(@template())

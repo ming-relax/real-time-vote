@@ -2,9 +2,8 @@ class Group < ActiveRecord::Base
   has_many :users
   has_many :proposals
 
-
-  def self.betray_penalty
-    0
+  def self.generate_penalty
+    [0, 10, 20].sample
   end
 
   # use redis to cache group info
@@ -43,8 +42,9 @@ class Group < ActiveRecord::Base
   def update_earnings(p)
     submitter_penalty = 0
     acceptor_penalty = 0
-    users = self.users
-    users.sort! { |a, b| a.id <=> b.id }
+    users = self.users   
+    users = users.sort { |a, b| a.id <=> b.id }
+
     moneys = [0, 0, 0]
     users.each_index do |i|
       users[i].total_earning += p.moneys[i]
@@ -54,21 +54,39 @@ class Group < ActiveRecord::Base
         acceptor_penalty = penalty(p.acceptor, p.submitter, p.round_id)
         users[i].total_earning -= acceptor_penalty
         moneys[i] -= acceptor_penalty
+        puts "acceptor_penalty: #{acceptor_penalty}, id: #{p.acceptor}, index: #{i}"
       end
 
       if users[i].id == p.submitter
-        # submiter_penalty = penalty_for_submiter(from_id, to_id, round_id)
         submitter_penalty = penalty(p.submitter, p.acceptor, p.round_id)
         users[i].total_earning -= submitter_penalty
         moneys[i] -= submitter_penalty
+        puts "submitter_penaly: #{submitter_penalty}, id: #{p.submitter}, index: #{i}"
       end
 
       users[i].save!
       
     end
+    
+    puts "update_earnings: #{moneys}"
 
     [submitter_penalty, acceptor_penalty, moneys]
 
+  end
+
+
+  def self.exit_group(group_id, user_id)
+
+    self.transaction do
+      group = Group.find(group_id)
+      users = group.users
+      users.each do |u|
+       u.group_id = nil
+       Room.leave(u.room_id, u.id) if u.id == user_id
+       u.save! 
+      end
+    end
+    
   end
 
 end

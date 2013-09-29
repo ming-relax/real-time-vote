@@ -17,3 +17,4 @@
 //= require ./lib/backbone
 //= require ./lib/csrf_hack
 //= require vote
+

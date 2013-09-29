@@ -19,11 +19,11 @@ class ProposalsController < ApplicationController
     #   respond_with({:err => 'accept error'})      
     # end
 
-    @proposal, @group_moneys = Proposal.accept_proposal(params[:proposal])
+    @deal, @group_moneys = Proposal.accept_proposal(params[:proposal])
 
-    Pusher.deal(@proposal, @group_moneys)
+    Pusher.deal(@deal, @group_moneys)
     
-    respond_with(@proposal, @group_moneys)
+    respond_with(@deal, @group_moneys)
      
   end
 

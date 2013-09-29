@@ -13,6 +13,8 @@
 #= require_tree ./templates
 #= require_tree ./views
 #= require_tree ./routers
+
+
 window.App =
   Routers: {}
   Views: {}
@@ -24,4 +26,6 @@ window.App =
     App.listener = new App.Listener()
     new App.Routers.MainRouter()
     Backbone.history.start()
+
+
     

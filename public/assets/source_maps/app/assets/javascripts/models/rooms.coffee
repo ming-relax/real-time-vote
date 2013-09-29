@@ -29,7 +29,7 @@ class App.Models.Room extends Backbone.Model
 
   add_new_user: (user_id, username) ->
     users = @get 'users'
-    users.push {id: user_id, username: username}
+    users.push {user_id: user_id, username: username}
     return users
     
   # other is joing
@@ -42,20 +42,30 @@ class App.Models.Room extends Backbone.Model
   # other is leaving
   otherLeave: (user_id) ->
     users = @get('users')
-    users = _.filter users, (u) -> u != user_id
+
+    # console.log "otherLeave: room_id: #{@get('id')}  users: ", users
+
+    users = _.filter users, (u) -> u.user_id != user_id
+
+    # console.log "otherLeave: room_id: #{@get('id')}  users: ", users
+    
     @set 'users', users
     @trigger 'change'
 
   playerJoin: (user_id, username) ->
-    users = @add_new_user user_id, username
+    users = @add_new_user(user_id, username)
     @set 'users', users
     @trigger 'change'
 
   playerLeave: (user_id) ->
-    users = @get 'users'
-    users = _.filter users, (u) -> u != user_id
-    @set 'users', users
-    @trigger 'change'
+    if App.currentUser.is_group_valid()
+      App.currentUser.exit_group()
+    else
+      users = @get 'users'     
+      console.log "playerLeave: ", users
+      users = _.filter users, (u) -> u.user_id != user_id
+      @set 'users', users
+      @trigger 'change'
 
   
   isFull: ->

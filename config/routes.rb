@@ -4,4 +4,5 @@ RealtimeVote::Application.routes.draw do
   resources :sessions, only: [:create, :destroy]
   resources :proposals, only: [:index, :create, :update]
   resources :users, only: [:update]
+  resources :groups, only: [:update]
 end

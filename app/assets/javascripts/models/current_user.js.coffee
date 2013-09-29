@@ -21,6 +21,8 @@ class App.Models.CurrentUser extends Backbone.Model
     @set('group', new App.Models.Group(data.group))
     console.log 'sys inint: ', data.group
 
+    @set('session', new App.Models.Login())
+
     @listenTo App.Vent, "user:logged_in", @logged_in
     @listenTo App.Vent, "user:logged_out", @logged_out
 
@@ -29,17 +31,21 @@ class App.Models.CurrentUser extends Backbone.Model
     App.Vent.trigger "rooms:init"
 
   logged_out: ->
-    m = new App.Models.Login({ id: @id })
-    m.destroy
-      success: (model, data) =>
-          @set loggedIn: false
-          @set room_id: -1
-          @set group_id: -1
-          delete @id
-          delete @attributes.username
-          delete @attributes.id
-          window.csrf(data.csrf)
-          App.Vent.trigger "vote:init"
+    if App.currentUser.get('loggedIn') is false
+      Backbone.history.navigate("/rooms", trigger: true)
+    else
+      m = new App.Models.Login({ id: @id })
+      m.destroy
+        success: (model, data) =>
+            @set loggedIn: false
+            @set room_id: -1
+            @set group: null
+            delete @id
+            delete @attributes.username
+            delete @attributes.id
+            window.csrf(data.csrf)
+            # App.Vent.trigger "room:init"
+            Backbone.history.navigate("/rooms", trigger:true)
   
 
   group: ->
@@ -82,4 +88,22 @@ class App.Models.CurrentUser extends Backbone.Model
     g = @get('group')
     return "invalid" if g is null
     return g.get('state')
+
+  exit_group: (myself)->
+    g = @get('group')
+    g.clear(silent: true)
+    if myself
+      @set
+        room_id: -1
+        round_id: -1
+        is_group_sync: true
+        is_myself_sync: true
+    else
+      @set
+        round_id: -1
+        is_group_sync: true
+        is_myself_sync: true
+
+    console.log 'current_user exit_group' 
+    Backbone.history.navigate("/rooms", trigger: true)
     

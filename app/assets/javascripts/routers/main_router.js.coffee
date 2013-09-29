@@ -11,11 +11,6 @@ class App.Routers.MainRouter extends Backbone.Router
   initialize: ->
     @headerView = new App.Views.Header()
     @contentView = new App.Views.Content()
-
-  # Game rule, start button
-  index: ->
-    @layoutViews()
-    App.Vent.trigger "vote:init"
     
   login: ->
     @layoutViews()
@@ -26,13 +21,18 @@ class App.Routers.MainRouter extends Backbone.Router
     @layoutViews()
     App.Vent.trigger "user:logged_out"
 
+
+
   # Load room page
   rooms: ->
-    if App.currentUser.is_group_valid()
-      App.Vent.trigger 'group:start'
-    else
-      @layoutViews()
-      App.Vent.trigger "rooms:init"
+    # if App.currentUser.is_group_valid()
+    #   App.Vent.trigger 'group:start'
+    # else
+    #   @layoutViews()
+    #   App.Vent.trigger "rooms:init"
+
+    @layoutViews()
+    App.Vent.trigger "rooms:init"
 
   group: ->
     @layoutViews()
