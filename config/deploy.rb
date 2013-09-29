@@ -60,9 +60,20 @@ namespace :deploy do
     run "cd #{current_path}; rake db:seed RAILS_ENV=#{rails_env}"
   end
 
-  desc "start node"
+  desc "init redis and db"
+  task: init do
+    run "cd #{current_path}; rake db:setup RAILS_ENV=#{rails_env}"
+  end
+
+
+  desc "start nodejs"
   task :node do
-    run "cd #{current_path}; cd realtime; node vote.js &"
+    run "cd #{current_path}; cd realtime; node vote.js &> /dev/null &"
+  end
+
+  desc "stop nodejs"
+  task :stop_node do
+    run "killall node"
   end
 
 end
