@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "",
+  "sourceRoot": "",
+  "sources": [
+    "/assets/source_maps/app/assets/javascripts/models/signup.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;CAAA,GAAA,EAAA;KAAA;oSAAA;;CAAA,CAAM,CAAG,GAAO;CACd;;;;;CAAA;;CAAA,EAAS,IAAT,CAAA;;CAAA;;CAD8B,OAAQ;CAAxC"
+}

@@ -11,6 +11,7 @@ class App.Views.Content extends Backbone.View
 
     # room data has fetched, we should render it
     @listenTo App.Vent, "rooms:ready", @swapToRooms
+    @listenTo App.Vent, "user:signup", @swapToSignup
     @listenTo App.Vent, "user:login", @swapToLogin
 
     # we have enough pepole, let's show the game page
@@ -39,6 +40,8 @@ class App.Views.Content extends Backbone.View
   swapToLogin: ->
     @swapSubView(new App.Views.Login({model: new App.Models.Login()}))
 
+  swapToSignup: ->
+    @swapSubView(new App.Views.Signup({model: new App.Models.Signup()}))
 
   swapSubView: (v) ->
     @subView.remove() if @subView

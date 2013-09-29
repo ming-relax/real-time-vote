@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   belongs_to :group
+  validates_uniqueness_of :username
+  
   authenticates_with_sorcery!
 
   # return [user, group_sync, myself_sync ]

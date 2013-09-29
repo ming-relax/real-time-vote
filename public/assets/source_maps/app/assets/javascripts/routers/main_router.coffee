@@ -6,11 +6,15 @@ class App.Routers.MainRouter extends Backbone.Router
     "login": "login"
     "logout": "logout"
     "group": "group"
-
+    "signup": "signup"
 
   initialize: ->
     @headerView = new App.Views.Header()
     @contentView = new App.Views.Content()
+
+  signup: ->
+    @layoutViews()
+    App.Vent.trigger "user:signup"
     
   login: ->
     @layoutViews()

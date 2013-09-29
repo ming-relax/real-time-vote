@@ -7,6 +7,7 @@
 #= require ./models/proposal
 #= require ./models/group
 #= require ./models/opponents
+#= require ./models/signup
 #= require ./models/login
 #= require ./models/rooms
 #= require ./models/current_user
