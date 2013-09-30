@@ -61,7 +61,7 @@ namespace :deploy do
   end
 
   desc "init redis and db"
-  task: init do
+  task :init do
     run "cd #{current_path}; rake db:setup RAILS_ENV=#{rails_env}"
   end
 

@@ -1,51 +1,55 @@
-# 在线实时游戏设计：
-## 功能描述   
+# A Realtime Game：
+####[vote.huming.me](http://)
+
+
+## Functionality      
    
-   多个玩家使用的在线游戏。用户登录系统后，可选择一个还有剩余座位的房间，一旦房间人数达到设定值，便开始游戏。玩家可以提出提案，接受提案，开始下一轮游戏。在游戏的过程中，玩家可以中途退出。
+   This is a multi-player relatime game. Users can choose a room; the game starts when the room is full of three people. In this game, user can submit proposal to opponents and accept proposal from opponents; and all this happens in realtime. Proposals will be pushed to opponents. 
 
 
-## 系统架构
+## System Components
 ![alt text][logo]
 [logo]: ./arch.png
 
-   Node.js 负责推送消息；
+   Node.js: responsible for push message initiated by user action
    
-   Rails 和 Backbone.js 实现业务逻辑； 
+   Rails + Backbone.js: business logic 
    
-   利用 Redis 的 pub/sub 接口实现消息推送
+   Redis: pub/sub service and caching
     	
 	
-## 设计原则
+## Design Principle
 
 ###0) all events should be handled by Backbone.Views; including UI event and custom defined events
 
 ###1) the one who initiate **push** should not process the **push** message
 
 
-###2) so the http response should have all info as if were **pushed** from node.js
+###2) http response should have all info as if were **pushed** from node.js
 
 
 ###3) every browser refresh should get fresh data (kind of like init system state), in case of error happens or user want to fresh.	
 
-## 协议
 
-### Node.js ---> Client 
+
+## Protocols
+
+### Node.js ---> Browser 
    
    
    |            Type         |       Message     |      Description    |
    | ------------------------|:-----------------:| -------------------:|
-   | Global: Join | room_id | 某人进入了某一个房间，用于更新房间内的空余座位数量|
-   | Global: Leave| room_id | 某人离开了某一个房间，用于更新房间内的额空余座位数量|
-   | Room: Join   | user_id | 其他人加入了当前用户所在的房间，用于告知当前用户的对手的信息|
-   | Room: Leave  | user_id | 对手离开了这个房间，有可能是对手掉线，也有可能是对手加入了其它房间 |
-   | **Room: Rejoins**| user_id |用户重新加入了该组，原因是用户刚刚暂时掉线了|
-   | Group: Start  | room_id, group_id, round_id | 人数齐了，可以开始游戏了|
-   | Group: Proposal | user_id, proposal | 对手提交了一个 proposal |
-   | Group: Decision | proposal | 有两个人达成了交易 |
-   | Group: NextRound| True | 全部确认了，可以开始下一轮游戏了 | 
+   | Global: Join | room_id | One user enters a room|
+   | Global: Leave| room_id | One user leaves a room|
+   | Room: Join   | user_id | User joined my room|
+   | Room: Leave  | user_id | Opponent leaves|
+   | Group: Start  | room_id, group_id, round_id | start game|
+   | Group: Proposal | user_id, proposal | proposal submitted|
+   | Group: Decision | proposal | A deal was made |
+   | Group: NextRound| True | Ready to start next round | 
    
    
-### Client ---> Server
+### Browser ---> Rails
 
 
    | Resources | Action | Parameter | Description|
