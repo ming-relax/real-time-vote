@@ -1,5 +1,5 @@
 # A Realtime Game：
-####[vote.huming.me](http://)
+####[http://vote.huming.me](http://)
 
 
 ## Functionality      
