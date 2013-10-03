@@ -68,7 +68,7 @@ namespace :deploy do
 
   desc "start nodejs"
   task :node do
-    run "cd #{current_path}; cd realtime; node vote.js &> /dev/null &"
+    run "cd #{current_path}; cd realtime; node vote.js &> log &"
   end
 
   desc "stop nodejs"
