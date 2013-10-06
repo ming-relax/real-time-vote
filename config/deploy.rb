@@ -60,6 +60,11 @@ namespace :deploy do
     run "cd #{current_path}; rake db:seed RAILS_ENV=#{rails_env}"
   end
 
+  desc "clear room"
+  task :clear_room do
+    run "cd #{current_path}; rake db:seed RAILS_ENV=#{rails_env}"
+  end
+
   desc "init redis and db"
   task :init do
     run "cd #{current_path}; rake db:setup RAILS_ENV=#{rails_env}"
