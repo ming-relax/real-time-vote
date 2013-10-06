@@ -2,7 +2,9 @@ class UsersController < ApplicationController
 
   def create
     begin
-      @user = User.create!(username: params[:username], password: params[:password])   
+      @user = User.create!(username: params[:username], 
+                           password: params[:password],
+                           weibo: params[:weibo])   
     rescue ActiveRecord::RecordInvalid => e
       render :json => {:error => "username was taken"}, :status => 422
     end

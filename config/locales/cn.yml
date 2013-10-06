@@ -4,6 +4,7 @@ cn:
   signup: "注册"
   logout: "退出"
   username: "用户名"
+  weibo: "微博"
   password: "密码"
   submit: "提交"
   round_before: "第 "

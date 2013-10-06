@@ -26,6 +26,7 @@ class App.Views.Signup extends Backbone.View
     e.preventDefault()
     @model.set username: @$('#username').val()
     @model.set password: @$('#password').val()
+    @model.set weibo: @$('#weibo').val()
 
     @model.save()
     

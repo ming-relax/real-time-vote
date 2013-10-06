@@ -4,6 +4,7 @@ en:
   signup: "Signup"
   logout: "Logout"
   username: "Username"
+  weibo: "weibo"
   password: "password"
   submit: "submit"
   round_before: "Current Round: "
