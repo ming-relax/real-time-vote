@@ -3,7 +3,7 @@ class App.Listener
 
     @listenTo App.Vent, "user:logged_in", @login
 
-    @sock = new SockJS('http://0.0.0.0:5001');
+    @sock = new SockJS('http://vote.huming.me:5001');
     @sock.onopen = ->
       console.log 'OPEN'
 

@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery.ui.effect-highlight
 //= require handlebars.runtime
+//= require i18n
+//= require i18n/translations
 //= require ./lib/underscore
 //= require ./lib/backbone
 //= require ./lib/csrf_hack

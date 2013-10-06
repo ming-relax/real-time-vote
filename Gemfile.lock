@@ -95,6 +95,8 @@ GEM
     hike (1.2.3)
     httpauth (0.2.0)
     i18n (0.6.5)
+    i18n-js (2.1.2)
+      i18n
     jbuilder (1.5.1)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
@@ -208,6 +210,7 @@ DEPENDENCIES
   factory_girl_rails
   gon
   handlebars_assets
+  i18n-js
   jasminerice!
   jbuilder (~> 1.2)
   jquery-rails

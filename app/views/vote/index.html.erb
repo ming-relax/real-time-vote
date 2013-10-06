@@ -1,4 +1,6 @@
 <%= javascript_tag do %>
-  
+  <% if Rails.env.development? %>
+    I18n.translations = <%= I18n.backend.send(:translations).to_json.html_safe %>
+  <% end %>  
   App.initialize(gon.user_info);
 <% end %>

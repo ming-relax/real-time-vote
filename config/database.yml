@@ -6,6 +6,7 @@
 development:
   adapter: postgresql
   database: vote_dev
+  host: localhost
   pool: 5
   timeout: 5000
 
@@ -17,6 +18,7 @@ test:
   adapter: postgresql
   database: vote_test
   pool: 5
+  host: localhost
   timeout: 5000
 
 

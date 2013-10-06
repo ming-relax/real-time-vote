@@ -15,6 +15,10 @@
 
 
 
+I18n.defaultLocale = "en"
+I18n.locale = "cn"
+
+Handlebars.registerHelper "t", (msg) -> I18n.t msg
 
 window.App =
   Routers: {}
