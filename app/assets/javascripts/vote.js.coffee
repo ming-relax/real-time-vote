@@ -27,7 +27,8 @@ window.App =
   Models: {}
   Vent: _.clone(Backbone.Events)
   initialize: (data)->
-    App.currentUser = new App.Models.CurrentUser(data)
+    App.env = data.env
+    App.currentUser = new App.Models.CurrentUser(data.user_info)
     App.listener = new App.Listener()
     new App.Routers.MainRouter()
     Backbone.history.start()

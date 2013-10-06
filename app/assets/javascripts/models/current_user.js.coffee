@@ -18,6 +18,7 @@ class App.Models.CurrentUser extends Backbone.Model
   urlRoot: '/users'  
   
   initialize: (data) ->
+    @set('env', data.env)
     @set('group', new App.Models.Group(data.group))
     console.log 'sys inint: ', data.group
 

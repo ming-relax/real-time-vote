@@ -1,7 +1,7 @@
 <div class="row-fluid">
   <p id="basic-group-info" class="text-info text-center">
-    Current Round is {{round_id}}; Betray penalty is {{betray_penalty}}
-  <button class="btn btn-danger pull-right" id="exit">Exit Room</button>
+    {{t 'round_before'}} {{round_id}} {{t 'round_after'}}; {{t 'round_penalty'}} {{betray_penalty}}
+  <button class="btn btn-danger pull-right" id="exit">{{t 'exit_room'}}</button>
   </p>
 
 </div>
@@ -10,15 +10,15 @@
 {{#if new_deal }}
 
   <div class="alert alert-success">
-    <p><strong>A deal is made between {{new_deal.submitter}} and {{new_deal.acceptor}}, please press this button to continue</strong>
+    <p><strong>{{t 'before_first'}} {{new_deal.submitter}} {{t 'and'}} {{new_deal.acceptor}} {{t 'after_second'}} {{t 'press'}} {{t 'and_wait'}}</strong>
     </p>
-    <button class="btn btn-success" id="next-round">next round</button>
+    <button class="btn btn-success" id="next-round">{{t 'next_round'}}</button>
   </div>
 {{/if }}
 
 {{#if wait_others }}
   <div class="alert alert-info">
-    <strong>Wait others to confirm</strong>
+    <strong>{{t 'wait_info'}}</strong>
   </div>
 {{/if }}
 
@@ -35,13 +35,13 @@
     </thead>
     <tbody>
       <tr>
-        <td>total_earnings</td>
+        <td>{{t 'total_earnings'}}</td>
         {{#each total_earnings}}
           <td>{{ this }}</td>
         {{/each}}
       </tr>
       <tr>
-        <td>last_earnings</td>
+        <td>{{t 'last_earnings'}}</td>
         {{#each last_earnings}}
           <td>{{ this }}</td>
         {{/each}}

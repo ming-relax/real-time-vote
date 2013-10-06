@@ -1,7 +1,7 @@
 class VoteController < ApplicationController
   def index
     gon.user_info = {}
-
+    gon.env = Rails.env
     if current_user
       gon.user_info = {:loggedIn => true}
       gon.user_info[:id] = current_user.id

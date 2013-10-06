@@ -6,6 +6,13 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+
+users = User.all
+users.each do |u|
+  u.room_id = nil
+  u.save!
+end
+
 40.times do |i|
   $redis.set("rooms:#{i}", {:users => []}.to_json)
 end

@@ -41,8 +41,8 @@ class App.Views.Room extends Backbone.View
     if @isJoin()
       @render true
       group = @model.get('group')
-      console.log 'join: ', group
       if group
+        console.log 'join: ', group
         App.currentUser.set({group_id: group.id, round_id: group.round_id})
         App.currentUser.set_group(group)
         App.Vent.trigger 'group:start'

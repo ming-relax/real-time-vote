@@ -2,8 +2,11 @@ class App.Listener
   constructor: ->
 
     @listenTo App.Vent, "user:logged_in", @login
+    if App.env is "development"
+      @sock = new SockJS('http://localhost:5001')
+    else
+      @sock = new SockJS('http://vote.huming.me:5001');
 
-    @sock = new SockJS('http://vote.huming.me:5001');
     @sock.onopen = ->
       console.log 'OPEN'
 
