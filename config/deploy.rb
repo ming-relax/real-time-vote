@@ -20,7 +20,7 @@ require 'rvm/capistrano'
 
 # file paths
 set :repository,  "#{user}@#{domain}:git/#{application}.git" 
-set :deploy_to, "/home/#{user}/realtime-vote/current" 
+set :deploy_to, "/home/#{user}/realtime-vote" 
 
 # distribute your applications across servers (the instructions below put them
 # all on the same server, defined above as 'domain', adjust as necessary)
