@@ -62,7 +62,7 @@ namespace :deploy do
 
   desc "clear room"
   task :clear_room do
-    run "cd #{current_path}; rake db:seed RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; bundle exec rake db:seed RAILS_ENV=#{rails_env}"
   end
 
   desc "init redis and db"
