@@ -80,8 +80,16 @@ class App.Views.Rooms extends Backbone.View
     current_room_id = App.currentUser.get('room_id')
     console.log "*** current_room_id: #{current_room_id}, target_room_id: #{target_room_id} ***"
 
+
+    # I am already in the room, and group is valid
+    if current_room_id is target_room_id and App.currentUser.is_room_valid() and App.currentUser.is_group_valid()
+      App.Vent.trigger 'group:start'
+      console.log 'trigger'
+      return
+
+    # room is full
     return null if @collection.isRoomFull target_room_id
-    return null if current_room_id is target_room_id
+
 
     if current_room_id isnt -1
       @collection.leaveRoom current_room_id

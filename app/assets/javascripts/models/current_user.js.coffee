@@ -58,6 +58,13 @@ class App.Models.CurrentUser extends Backbone.Model
   group_id: ->
     return@get('group').get('id')
 
+  is_room_valid: ->
+    room_id = @get('room_id')
+    if room_id is -1
+      return false
+    else
+      return true
+      
   is_group_valid: ->
     loggedIn = @get('loggedIn')
 
