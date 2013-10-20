@@ -65,6 +65,7 @@ class App.Views.Opponent extends Backbone.View
 
   submit_invalid: (model, error) ->
     console.log 'submit invalid: ', error
+    alert(error)
 
   deal_success: ->
     deal = @opponent_proposal.get('deal')

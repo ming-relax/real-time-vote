@@ -32,9 +32,9 @@ class App.Models.Proposal extends Backbone.Model
     if (attrs.moneys is null)
       return @error_string(attrs, "moneys")
 
-    # sum = attrs.moneys.reduce (t, s) -> t + s
-    # if (sum isnt 100)
-    #   return @error_string(attrs, "moneys")
+    sum = attrs.moneys.reduce (t, s) -> t + s
+    if (sum isnt 100)
+      return @error_string(attrs, "moneys")
 
     if (attrs.accepted is null)
       return @error_string(attrs, "accepted")
