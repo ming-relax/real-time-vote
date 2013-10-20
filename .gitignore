@@ -15,4 +15,4 @@
 /log/*.log
 /tmp
 dump.rdb
-public/assets/source_maps/app/assets/javascripts/views/*.map
+/public/assets/source_maps/*

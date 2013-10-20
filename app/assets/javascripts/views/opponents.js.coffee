@@ -65,7 +65,10 @@ class App.Views.Opponent extends Backbone.View
 
   submit_invalid: (model, error) ->
     console.log 'submit invalid: ', error
-    alert(error)
+    if I18n.locale is 'cn'
+      alert("提案之和必须是100")
+    else
+      alert("The sum of proposal must be 100")
 
   deal_success: ->
     deal = @opponent_proposal.get('deal')
