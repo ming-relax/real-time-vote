@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131021124744) do
+ActiveRecord::Schema.define(version: 20131030032126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20131021124744) do
     t.integer  "moneys",         array: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "users_id",       array: true
   end
 
   create_table "proposals", force: true do |t|
@@ -50,7 +51,6 @@ ActiveRecord::Schema.define(version: 20131021124744) do
     t.integer  "total_earning",    default: 0
     t.integer  "round_id"
     t.string   "weibo"
-    t.integer  "xx"
   end
 
 end
