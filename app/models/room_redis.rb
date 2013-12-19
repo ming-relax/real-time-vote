@@ -1,8 +1,37 @@
-class Room < ActiveRecord::Base
+class RoomRedis
+  def self.get_users(i)
+    room = JSON.parse($redis.get("rooms:#{i}"))
+    room['users']
+  end
+  # key:    "rooms:#{room_id}"
+  # value:  users: [{user_id: xx, username: xx}, ..]
+  def self.set_users(room_id, users)
+    $redis.set("rooms:#{room_id}", {:users => users}.to_json)
+  end
 
-  def self.join(room_id, user_id)
+  def self.add_user(room_id, user_id, username)
+    users = get_users(room_id)
+    return ['full', users] if users.length == 3
 
-    err, users = add_user(room_id, user_id)
+    users.each do |u|
+      return ['rejoin', users] if u['user_id'] == user_id
+    end
+
+    users << {'user_id' => user_id, 'username' => username}
+    users.sort! {|a, b| a['user_id'] <=> b['user_id'] }    
+    set_users(room_id, users)
+
+    # update pg
+    u = User.find(user_id)
+    u.room_id = room_id
+    u.save! 
+    return [nil, users]
+  end
+
+
+  def self.join(room_id, user_id, username)
+
+    err, users = add_user(room_id, user_id, username)
     return [err, users, nil] if err
 
     # Push message
@@ -39,53 +68,25 @@ class Room < ActiveRecord::Base
   end
 
   def self.leave(room_id, user_id)
+    users = get_users(room_id)
 
-  	err, users = delete_user(room_id, user_id)
-  	return [err, users] if err
+    users.select! do |u|
+      u['user_id'] != user_id
+    end
+
+    # update redis
+    set_users(room_id, users)
+
+    # update pg
+    u = User.find(user_id)
+    u.room_id = nil
+    u.save!
 
     # Push message
     Pusher.leave(room_id, user_id)
 
     [nil, users]
   end
-
-  private
-    def self.add_user(room_id, user_id)
-      self.transaction do
-        r = Room.find(room_id)
-        return ['fullRoom', nil] if r.user_id.length == 3
-
-        r.users_id << user_id
-        r.users_id = r.users_id.to_set.to_a
-        r.save!
-        users = []
-        r.users_id do |u_id|
-          users << User.find(u_id).username
-        end
-        return [nil, users]
-      end
-    end
-
-    def self.delete_user(room_id, user_id)
-      self.transaction do
-        r = Room.find(room_id)
-        return ['emptyRoom', nil] if r.user_id.length == 0
-        
-        new_users = r.users_id.select {|u| u != user_id}
-        
-        # delete a user don't belong here
-        return ['nullUser', new_users] if new_users == r.users_id
-
-        r.users_id = new_users
-        r.save!
-
-        u = User.find(user_id)
-        u.room_id = nil
-        u.save!
-
-      end
-
-    end
-
-
 end
+
+

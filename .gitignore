@@ -14,6 +14,6 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-dump.rdb
+/dump.rdb
 
 /public/assets/source_maps/*

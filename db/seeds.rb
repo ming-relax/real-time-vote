@@ -14,6 +14,6 @@ users.each do |u|
 end
 
 40.times do |i|
-  $redis.set("rooms:#{i}", {:users => []}.to_json)
+	Room.create(users_id: [])
 end
 

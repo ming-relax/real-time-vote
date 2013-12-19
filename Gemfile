@@ -1,5 +1,4 @@
-source 'https://rubygems.org'
-
+source 'http://ruby.taobao.org/'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
@@ -26,6 +25,7 @@ group :development, :test do
   gem 'coffee-rails-source-maps'
   gem 'better_errors'
   gem "jasminerice", :git => 'https://github.com/bradphelan/jasminerice.git'
+  gem 'pry-rails'
 end
 
 
@@ -61,5 +61,8 @@ gem 'gon'
 
 # Use Capistrano for deployment
 gem 'rvm-capistrano', group: :development
+
 # Use debugger
 gem 'debugger', group: [:development, :test]
+
+gem 'faye'
