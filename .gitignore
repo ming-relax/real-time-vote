@@ -17,3 +17,5 @@
 /dump.rdb
 
 /public/assets/source_maps/*
+
+coverage/

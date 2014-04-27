@@ -1,22 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="vote">
+
 <head>
   <title>RealtimeVote</title>
   <%= include_gon %>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <script src="http://cdn.sockjs.org/sockjs-0.3.min.js">
-  </script>
+  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-    <div id="header">
-    </div>
-    <div id="content">
-    </div>
+<div class="navbar navbar-default" role="navigation" ng-controller="NavbarCtrl">
+  <div class="navbar-header">
+    <a class="navbar-brand " href="">Vote for Money</a>
+    
+  </div>
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+      <li ng-if="isLoggedIn"><a>Welcome {{ username }}</a></li>
+      <li ng-if="isLoggedIn"><a href="" ng-click="logout()">Logout</a></li>
+    </ul>
+  </div>
+</div>
 
-<%= yield %>
-
+  <div ng-view>
+    <%= yield %>
+  </div>
 </body>
 </html>

@@ -1,6 +1,23 @@
 class Pusher
+  def room_list
+    rooms = Room.all
+    room_list = []
+    rooms.each do |r|
+      room_list << {:id => r.id, :seats => 3 - r.users_id.length}
+    end
+    publish "room_list", room_list
+  end
 
-  def self.join(room_id, user_id, username)
+  def group_start
+
+  end
+
+  def group_stop
+
+  end
+
+  def self.join(room_id, user_id)
+    username = ''
     publish "global:join", {:room_id => room_id, 
                             :user_id => user_id,
                             :username => username }

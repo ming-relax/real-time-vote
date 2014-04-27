@@ -1,27 +1,21 @@
 class ProposalsController < ApplicationController
+  respond_to :json
+
   def index
 
   end
 
-  def create
+  def submit
     @proposal = Proposal.create proposal_param
-    Pusher.proposal(@proposal)
-
     respond_with(@proposal)
   end
 
-  def update
-    # begin
-    #   p = Porposal.accept_proposal(params[:proposal])
-    #   Pusher.deal(p)
-    #   respond_with(p)
-    # rescue Exception => e
-    #   respond_with({:err => 'accept error'})      
-    # end
+  def accept
 
-    @deal, @group_moneys = Proposal.accept_proposal(params[:proposal])
-
-    Pusher.deal(@deal, @group_moneys)
+    @deal, @group_moneys = Proposal.accept(
+      :id => params[:id], 
+      :group_id => params[:group_id]
+    )
     
     respond_with(@deal, @group_moneys)
      

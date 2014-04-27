@@ -7,13 +7,16 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-users = User.all
-users.each do |u|
-  u.room_id = nil
-  u.save!
-end
+Group.destroy_all
+Proposal.destroy_all
+User.destroy_all
 
+Room.destroy_all
 40.times do |i|
 	Room.create(users_id: [])
 end
 
+User.destroy_all
+3.times do |n|
+  User.create(username: "ming-#{n+1}", password: '123')
+end

@@ -12,11 +12,10 @@
 //
 //= require jquery
 //= require jquery.ui.effect-highlight
+//= require angular
+//= require angular-route
+//= require angular-animate
 //= require handlebars.runtime
-//= require i18n
-//= require i18n/translations
 //= require ./lib/underscore
-//= require ./lib/backbone
-//= require ./lib/csrf_hack
-//= require vote
-
+//= require main
+//= require_tree .

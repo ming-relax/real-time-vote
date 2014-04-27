@@ -1,63 +1,70 @@
 class Proposal < ActiveRecord::Base
   belongs_to :group
-  validates_presence_of :group_id, :round_id, :submitter, :acceptor, :moneys, :submitter_penalty, :acceptor_penalty
-  validates_inclusion_of :accepted, :in => [true, false]
-  after_rollback :accept_fail
+  
+  validates :group_id, :round_id, :submitter, :acceptor, numericality: { only_integer: true }
+  validate :sum_of_moneys, on: :create
 
-  # use redis to store accepted proposal
-  def self.current_round_is_over?(round_id, group_id)
-    proposals = Proposal.where('group_id = ? AND round_id = ? AND accepted = ?',
-                                group_id, round_id, true)
-    if proposals.length > 0
-      true
-    else
-      false
-    end
-
+  def sum_of_moneys
+    puts self
+    sum = moneys.inject {|sum,x| sum + x }
+    errors.add(:moneys, 'sum of money should be 100') if sum != 100   
   end
 
-  # several states need to be updated:
-  # 1) proposal --- accepted
-  # 2) proposal --- submitter_penalty, acceptor_penalty
-  # 3) user     --- total_earnings
-  # 4) group    --- round_id
-  # 5) group    --- moneys
-  def self.accept_proposal(params)
-    return "error:round:over" if current_round_is_over?(params[:round_id], params[:group_id])
-    
-    deal = nil
-    new_monyes = [0, 0, 0]
-    self.transaction do
-      proposal = Proposal.find(params[:id])
+  def self.deal(group_id, round_id)
+    Proposal.where("group_id = :group_id AND round_id = :round_id AND accepted = :accepted", 
+                   {group_id: group_id, round_id: round_id, accepted: true})
+            .first
+  end
 
-      g = Group.find(proposal.group_id)
+  def self.to_me(group, user_id)
+    proposals = Proposal.where("group_id = :group_id AND round_id = :round_id AND acceptor = :user_id",
+                               {group_id: group.id, round_id: group.round_id, user_id: user_id})
+                        .order(created_at: :desc)
+
+
+    users_id = group.users_id
+    others = users_id.select { |id| id != user_id }    
+    proposals = others.map do |other|
+      proposals.find { |p| p.submitter == other}
+    end
+    proposals
+  end
+
+  # POST submit
+  def self.submit(options)
+    self.transaction do
+      group = Group.lock(true).find(options[:group_id])
+      raise "Dealed" if group.status != 'active'
+      Proposal.create!(options)
+    end
+  end
+
+  def self.accept(options)
+    self.transaction do
+      group = Group.lock(true).find(options[:group_id])
+      raise "Dealed" if group.status != 'active'
+
+      proposal = Proposal.find(options[:id])
 
       # update each user's earnings
-      submitter_penalty, acceptor_penalty, moneys = g.update_earnings(proposal)
+      submitter_penalty, acceptor_penalty, moneys = group.update_earnings(proposal)
 
       # update group
-      
-      g.moneys.each_index do |i|
-        new_monyes[i] = g.moneys[i] + moneys[i]
+      new_moneys = group.moneys.map.with_index do |e, i|
+        e + moneys[i]
       end
-      g.update!(moneys: new_monyes, 
-               round_id: g.round_id + 1)      
 
+      # dont update round_id for now
+      # wait until all users acked
+      group.update!(moneys: new_moneys,
+               status: 'deal')
       # update proposal
       proposal.update!(accepted: true, 
                        submitter_penalty: submitter_penalty, 
                        acceptor_penalty: acceptor_penalty)
       deal = proposal
       deal.moneys = moneys
+      return [deal, new_moneys]
     end
-
-    return [deal, new_monyes]    
   end
-
-
-  def accept_fail
-    puts '*'*30
-    puts "after_rollback: proposal id #{id}"
-  end
-
 end

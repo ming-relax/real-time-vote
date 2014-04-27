@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="login-container" ng-hide="displaySignup">
+    <div id="output"></div>
+    <div class="avatar"></div>
+    <div class="form-box">
+      <form action="" method="">
+          <input type="text" placeholder="username" ng-model="username">
+          <input type="password" placeholder="password" ng-model="password">
+          <button class="btn btn-info btn-block login" type="submit" ng-click="login()">Login</button>
+      </form>
+    </div>
+
+    <div class="signup-link" ng-hide="displaySignup">
+      <a href="" ng-click="loadSignup()"><h4 class="text-info lead">No Account Yet? Signup Now</h4></a>
+    </div>
+
+  </div>
+
+
+  <div class="signup-container" ng-show="displaySignup">
+    <div id="output"></div>
+    <div class="avatar"></div>
+    <div class="form-box">
+      <form action="" method="">
+          <input type="text" placeholder="username" ng-model="username">
+          <input type="text" placeholder="weibo" ng-model="weibo">
+          <input type="password" placeholder="password" ng-model="password">
+          <input type="password" placeholder="password confirmation" ng-model="password_confirmation">
+          <button class="btn btn-info btn-block login" type="submit" ng-click="signup()">Signup</button>
+      </form>
+    </div>
+
+  <div class="login-link" ng-show="displaySignup">
+    <!-- <p class="text-muted">Already have an account?</p> -->
+    <a href="" ng-click="loadLogin()"><h4 class="text-info lead"> Already have an account? Login Now</h4></a>
+  </div>
+
+  </div>
+
+
+        
+</div>
+
