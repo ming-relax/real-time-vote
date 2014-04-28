@@ -71,6 +71,16 @@
           console.log("logout error")
       promise
 
+    joinRoom: (roomId) ->
+      promise = $http.put("./rooms/join.json", {room_id: roomId, user_id: user.id})
+        .success (data, status) ->
+          console.log('joinRoom: ', data)
+          user = data
+        .error (rsp) ->
+          console.log('joinRoom error')
+
+      promise
+
     isLoggedIn: ->
       user != null and user.id > 0
 
@@ -80,6 +90,9 @@
     hasGroup: ->
       user != null and user.group_id > 0
 
+    groupId: (id) ->
+      user.group_id = id
+      
     currentUser: ->
       user    
   }

@@ -1,5 +1,7 @@
-<div ng-repeat="room in rooms">
-  <div class="square" ng-click="joinRoom($index)">
-    {{room.seats}}
+<div class="container">
+  <div ng-repeat="room in rooms">
+    <div class="square" ng-click="joinRoom($index)">
+      {{room.seats}}
+    </div>
   </div>
 </div>

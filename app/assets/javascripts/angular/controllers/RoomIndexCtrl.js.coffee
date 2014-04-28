@@ -11,13 +11,16 @@
 
     $scope.joinRoom =  (index) ->
       console.log("index: ", index)
-      user = userService.currentUser()
-      if user
-        console.log("room_id: ", $scope.rooms[index].id)
-        $http.put("./rooms/join.json", {room_id: $scope.rooms[index].id, user_id: user.id})
-      else
-        $location.path('/')
 
+      userService.joinRoom($scope.rooms[index].id)
+        .then () ->
+          if userService.hasGroup()
+            $location.path('/group')
+
+    # $scope.$watch(userService.group, (newValue, oldValue) ->
+    #   if userService.hasGroup()
+    #     $location.path('/group')
+    # , true)
 
     # query ./rooms.json every second
     setInterval(( ->
@@ -25,10 +28,10 @@
         $scope.rooms = data.rooms)
     ), 1000)
 
-    $scope.$watch(userQueryService.group, (group, old) ->
-      if group
-        console.log('RoomIndexCtrl have group')
-        console.log('group: ', group)
+    $scope.$watch(userQueryService.queryResult, (newValue, oldValue) ->
+      if newValue and newValue.group
+        # must set group id to prevent redirect loop
+        userService.groupId(newValue.group.id)
         $location.path('/group')     
     , true)
 ]

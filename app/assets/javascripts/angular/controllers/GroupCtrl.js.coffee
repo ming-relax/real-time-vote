@@ -15,74 +15,79 @@
 #   proposal_from_me: [2, 2, 98]
 #   
 
-@vote.controller 'GroupCtrl', ['$scope', '$http', 'userQueryService', ($scope, $http, userQueryService) ->
-  console.log("GroupCtrl")
-  
-  $scope.model = 
-    myself: 
-      id: null
-      room_id: null
-      total_earning: null
+@vote.controller 'GroupCtrl', ['$scope', '$http', '$location', 'userService', 'userQueryService', 
+  ($scope, $http, $location, userService, userQueryService) ->
+    
+    console.log("GroupCtrl")
 
-    group: 
-      users: ({username: null, id: null, total_earning: null} for _ in [1..3])
-    opponents: ({username: null, proposal_to_me: (null for _ in [1..3]), proposal_from_me: (null for _ in [1..3])} for _ in [1..2])
+    if !userService.hasGroup()
+      $location.path('/rooms')
+    
+    $scope.model = 
+      myself: 
+        id: null
+        room_id: null
+        total_earning: null
 
-  $scope.$watch(userQueryService.queryResult, (newVal, oldVal) ->
-    console.log('GroupCtrl: newVal: ', newVal, ' oldVal: ', oldVal)
-    if newVal
-      $scope.model.myself = newVal.myself
-      $scope.model.group = newVal.group
-      $scope.model.opponents = newVal.opponents
-      if $scope.model.group.deal
-        $scope.model.group.deal.submitterName = $scope.idToName($scope.model.group.deal.submitter)
-        $scope.model.group.deal.acceptorName = $scope.idToName($scope.model.group.deal.acceptor)
-  , true)
+      group: 
+        users: ({username: null, id: null, total_earning: null} for _ in [1..3])
+      opponents: ({username: null, proposal_to_me: (null for _ in [1..3]), proposal_from_me: (null for _ in [1..3])} for _ in [1..2])
+
+    $scope.$watch(userQueryService.queryResult, (newVal, oldVal) ->
+      console.log('GroupCtrl: newVal: ', newVal, ' oldVal: ', oldVal)
+      if newVal
+        $scope.model.myself = newVal.myself
+        $scope.model.group = newVal.group
+        $scope.model.opponents = newVal.opponents
+        if $scope.model.group and $scope.model.group.deal
+          $scope.model.group.deal.submitterName = $scope.idToName($scope.model.group.deal.submitter)
+          $scope.model.group.deal.acceptorName = $scope.idToName($scope.model.group.deal.acceptor)
+    , true)
 
 
-  $scope.idToName = (id) ->
-    username = null
-    $scope.model.group.users.forEach (u) ->
-      if u.id == id
-        return username = u.username
+    $scope.idToName = (id) ->
+      username = null
+      $scope.model.group.users.forEach (u) ->
+        if u.id == id
+          return username = u.username
 
-    username
+      username
 
-  $scope.isAckedByMyself = () ->
-    if $scope.model.myself.id and $scope.model.group.acked_users.indexOf($scope.model.myself.id) != -1
-      true
-    else
-      false
+    $scope.isAckedByMyself = () ->
+      if $scope.model.myself.id and $scope.model.group and $scope.model.group.acked_users.indexOf($scope.model.myself.id) != -1
+        true
+      else
+        false
 
-  $scope.accept = (index) ->
-    if $scope.model.group.status == 'deal'
-      console.log('group status is deal')
-      return
+    $scope.accept = (index) ->
+      if $scope.model.group and $scope.model.group.status == 'deal'
+        console.log('group status is deal')
+        return
 
-    console.log('proposal_to_me: ', $scope.model.opponents[index].proposal_to_me)
-    id = $scope.model.opponents[index].proposal_to_me.id
-    $http.put(
-      "/proposals/accept/#{id}.json",
-      {
-        group_id: $scope.model.opponents[index].proposal_to_me.group_id
-      })
-      .success (data, status) =>
-        console.log('success: ', data)
-      .error (rsp) =>
-        console.log('error: ', rsp)
+      console.log('proposal_to_me: ', $scope.model.opponents[index].proposal_to_me)
+      id = $scope.model.opponents[index].proposal_to_me.id
+      $http.put(
+        "/proposals/accept/#{id}.json",
+        {
+          group_id: $scope.model.opponents[index].proposal_to_me.group_id
+        })
+        .success (data, status) =>
+          console.log('success: ', data)
+        .error (rsp) =>
+          console.log('error: ', rsp)
 
-  $scope.nextRound = () ->
-    console.log('nextRound')
-    group_id = $scope.model.group.id
-    $http.put(
-      "/groups/#{group_id}/next_round.json",
-      {
-        user_id: $scope.model.myself.id
-      })
-      .success (data, status) =>
-        console.log('success: ', data)
-      .error (rsp) =>
-        console.log('error: ', rsp)
+    $scope.nextRound = () ->
+      console.log('nextRound')
+      group_id = $scope.model.group.id
+      $http.put(
+        "/groups/#{group_id}/next_round.json",
+        {
+          user_id: $scope.model.myself.id
+        })
+        .success (data, status) =>
+          console.log('success: ', data)
+        .error (rsp) =>
+          console.log('error: ', rsp)
 ]
 
 # :group_id, :round_id, :submitter, :acceptor, :moneys

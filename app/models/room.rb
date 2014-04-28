@@ -32,8 +32,8 @@ class Room < ActiveRecord::Base
         group_info[:betray_penalty] = g.betray_penalty
       end
 
-      [users, group_info]
-      
+      # [users, group_info]
+      user.reload
     end
 
   end

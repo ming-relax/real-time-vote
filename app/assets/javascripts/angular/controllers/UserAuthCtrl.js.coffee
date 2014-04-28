@@ -4,10 +4,8 @@
 
     $scope.redirect_to_game = () ->
       if userService.hasGroup()
-        console.log("===========================")
         $location.path("/group")
       else
-        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         $location.path("/rooms")
 
     $scope.isLoggedIn = userService.isLoggedIn()
@@ -19,8 +17,8 @@
     $scope.login = () ->
       userService.login($scope.username, $scope.password)
         .then () ->
-          $scope.redirect_to_game()
           userQueryService.start()
+          $scope.redirect_to_game()
 
     $scope.signup = () ->
       console.log('signup')
