@@ -1,13 +1,13 @@
-<div class="container">
-  <div class="row game-block">
-    <p id="basic-group-info" class="text-info text-center">
-      Betray penalty is: {{model.group.betray_penalty}}; Round id: {{ model.group.round_id }}
+<div class="container" id="group">
+  <div class="row">
+    <p id="basic-group-info" class="text-center">
+      Betray penalty is {{model.group.betray_penalty}}; Round id {{ model.group.round_id }}
     </p>
 
   </div>
 
 
-  <div class="alert alert-success game-block" ng-if='isAckedByMyself() == false && model.group.status == "deal"'>
+  <div class="alert alert-success" ng-if='isAckedByMyself() == false && model.group.status == "deal"'>
     <p><strong>{{ model.group.deal.submitterName }} and {{ model.group.deal.acceptorName }} made a deal, click this button and wait</strong>
     </p>
     <button class="btn btn-default" ng-click="nextRound()">Next Round</button>
@@ -19,7 +19,7 @@
 
 
 
-  <div class="row game-block">
+  <div class="row">
     <table class="table" id="statistics">
       <thead>
         <tr>
@@ -29,18 +29,18 @@
       </thead>
       <tbody>
         <tr>
-          <td>total earnings</td>
+          <td>total earning</td>
           <td ng-repeat="user in model.group.users">{{ user.total_earning }}</td>
         </tr>
         <tr>
-          <td>last_earnings</td>
-          <td ng-repeat="user in model.group.users">{{ user.last_earning }}</td>
+          <td>last_earning</td>
+          <td ng-repeat="m in model.group.last_earning track by $index">{{ m }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="row game-block" id="opponents">
+  <div class="row" id="opponents">
     <div ng-repeat="opponent in model.opponents track by $index" class="col-md-6 thumbnail">
       <p>Opponent: {{ opponent.username }}</p>
       <table class="table">
@@ -61,23 +61,20 @@
         </tbody>
       </table>
 
-      <div class="col-md-3">
-        <button class="btn btn-info btn-success" type="submit" ng-click="accept($index)">
+      <div>
+        <button class="btn btn-default btn-block" type="submit" ng-click="accept($index)">
           ACCEPT
         </button>
       </div>
           
 
       <hr/>
-      <div class="text-center">
-        <strong><span id="opponent_name"></span></strong>
-      </div>
 
       <table class="table">
         <thead>
         <tr>
           <th>#</th>
-          <th ng-repeat="user in group.users">{{ user.username }}</th>
+          <th ng-repeat="user in model.group.users">{{ user.username }}</th>
         </tr>
         </thead>
 
@@ -96,11 +93,9 @@
           <input type="text" class="input-mini" ng-model="proposal_from_me[$index]">
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-info btn-lg">SUBMIT</button>
+          <button type="submit" class="btn btn-default btn-block">SUBMIT</button>
         </div>
       </form>
-
-    </div>
   </div>
 
 </div>

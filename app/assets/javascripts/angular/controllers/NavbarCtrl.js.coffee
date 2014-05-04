@@ -10,12 +10,15 @@
       $scope.isLoggedIn = newValue
       if $scope.isLoggedIn == true
         $scope.username = userService.currentUser().username
+      else
+        $scope.username = null
     )
 
     $scope.logout = () ->
       console.log('click logout')
       userService.logout()
         .then () ->
+          console.log('logged out')
           $location.path("/")
 
 ]

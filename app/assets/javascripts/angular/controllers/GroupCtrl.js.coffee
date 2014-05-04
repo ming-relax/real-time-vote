@@ -42,17 +42,26 @@
         if $scope.model.group and $scope.model.group.deal
           $scope.model.group.deal.submitterName = $scope.idToName($scope.model.group.deal.submitter)
           $scope.model.group.deal.acceptorName = $scope.idToName($scope.model.group.deal.acceptor)
+
+          # update last earning
+          # $scope.model.group.lastEarning = newVal.group.last_earning
     , true)
 
+    if !userQueryService.queryStarted
+      userQueryService.start()
+
+    $scope.userIdToIndex = (uid) ->
+      userIndex = null
+      $scope.model.group.users.forEach (u, index) ->
+        if u.id == uid
+          userIndex = index
+          return
+      userIndex
 
     $scope.idToName = (id) ->
-      username = null
-      $scope.model.group.users.forEach (u) ->
-        if u.id == id
-          return username = u.username
-
-      username
-
+      index = $scope.userIdToIndex(id)
+      $scope.model.group.users[index].username
+        
     $scope.isAckedByMyself = () ->
       if $scope.model.myself.id and $scope.model.group and $scope.model.group.acked_users.indexOf($scope.model.myself.id) != -1
         true
@@ -65,6 +74,8 @@
         return
 
       console.log('proposal_to_me: ', $scope.model.opponents[index].proposal_to_me)
+      return if !$scope.model.opponents[index].proposal_to_me
+
       id = $scope.model.opponents[index].proposal_to_me.id
       $http.put(
         "/proposals/accept/#{id}.json",
@@ -95,10 +106,21 @@
   console.log("MyProposalCtrl")
   $scope.proposal_from_me = (null for _ in [1..3])
   $scope.submit = () ->
+    
+    console.log('MyProposalCtrl: submit')
+
     if $scope.model.group.status == 'deal'
       console.log('group status is deal')
       return
-      
+    
+    moneys = $scope.proposal_from_me.map (m) -> 
+      parseInt(m)
+
+    sum = moneys.reduce (t, s) -> t + s
+    if sum != 100
+      alert("sum of money should be 100")
+      return
+    
     $http.post(
       'proposals/submit.json', 
       { 
@@ -106,8 +128,7 @@
         round_id: $scope.model.group.round_id,
         submitter: $scope.model.myself.id,
         acceptor: $scope.model.opponents[$scope.$index].id,
-        moneys: $scope.proposal_from_me.map (m) -> 
-          parseInt(m)
+        moneys: moneys
       })
       .success (data, status) =>
         console.log('success: ', data)

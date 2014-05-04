@@ -100,6 +100,7 @@
 
 @vote.factory('userQueryService', ['$http', '$interval', 'userService', ($http, $interval, userService) ->
   userInfo = null
+  queryStarted = false
   poll = () ->
     userService.init(gon.user_info)
     user = userService.currentUser()
@@ -118,11 +119,13 @@
     userInfo
 
   start = () ->
+    queryStarted = true
     $interval(poll, 1000)
 
   return {
     queryResult: queryResult
-    start: start
+    start: start,
+    queryStarted: queryStarted
   }
 ])
 

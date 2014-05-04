@@ -23,6 +23,28 @@ class User < ActiveRecord::Base
 
   end
 
+  def self.deal_to_earning(users, deal)
+    submitter_index = nil
+    acceptor_index = nil
+    users.each_with_index do |u, index|
+      if u.id == deal.submitter
+        submitter_index = index
+      elsif u.id == deal.acceptor
+        acceptor_index = index
+      end 
+    end
+
+    earning = deal.moneys
+    deal.moneys.each_with_index do |m, index|
+      if index == submitter_index
+        earning[index] -= deal.submitter_penalty
+      elsif index == acceptor_index
+        earning[index] -= deal.acceptor_penalty
+      end
+    end
+    earning
+  end
+
   def self.query_user(id)
     user = User.find(id)
     user_info = {}
@@ -42,6 +64,11 @@ class User < ActiveRecord::Base
         raise "no_deal" unless deal
 
         user_info["group"]["deal"] = deal
+
+        # covert deal to last earning
+
+        user_info["group"]["last_earning"] = deal_to_earning(users, deal)
+
       end
 
       Proposal.to_me(group, id).each_with_index do |p, idx|

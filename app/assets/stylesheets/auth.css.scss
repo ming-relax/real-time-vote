@@ -1,13 +1,12 @@
-body{background: #eee url(http://turbo.designwoop.com/uploads/2012/03/01_free_subtle_textures_apple_ios_linen_texture.jpg);}
+body { 
+  // background: #eee image_url("apple.jpg");
+}
+
 html,body{
     position: relative;
     height: 100%;
 }
 
-.game-block {
-  background: #fff;
-  border: 10px solid #ccc;
-}
 .login-container, .signup-container{
   display: inline-block;
   position: relative;
