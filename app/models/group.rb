@@ -6,6 +6,7 @@ class Group < ActiveRecord::Base
     
   def self.generate_penalty
     [0, 10, 20].sample
+    # 20
   end
 
   # use redis to cache group info

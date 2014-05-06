@@ -68,7 +68,9 @@ class User < ActiveRecord::Base
         # covert deal to last earning
 
         user_info["group"]["last_earning"] = deal_to_earning(users, deal)
-
+      else
+        previous_deal = Proposal.previous_deal(group.id, group.round_id)
+        user_info["group"]["last_earning"] = deal_to_earning(users, previous_deal) if previous_deal
       end
 
       Proposal.to_me(group, id).each_with_index do |p, idx|
@@ -80,6 +82,15 @@ class User < ActiveRecord::Base
       end
     end
     user_info
+  end
+
+  def admin?
+    admin == true
+  end
+
+  def add_admin
+    self.admin = true
+    self.save!
   end
 
 end

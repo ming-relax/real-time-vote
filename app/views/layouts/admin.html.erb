@@ -5,29 +5,25 @@
   <title>RealtimeVote</title>
   <%= include_gon %>
   <%= stylesheet_link_tag    "application", media: "all" %>
-  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "admin" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<div class="navbar navbar-default" role="navigation" ng-controller="NavbarCtrl">
+<div class="navbar navbar-default" role="navigation">
   <div class="navbar-header">
     <a class="navbar-brand " href="">Vote for Money</a>
-    
   </div>
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
-      <li ng-if="isLoggedIn"><a>Welcome {{ username }}</a></li>
-      <li ng-if="isLoggedIn"><a href="" ng-click="logout()">Logout</a></li>
-      <% if current_user and current_user.admin? %>
+      <% if current_user %>
+      <li><a>Welcome <%= current_user.username %></a></li>
         <li><a href="/admin">Admin</a></li>
       <% end %>
     </ul>
   </div>
 </div>
+  <%= yield %>
 
-  <div ng-view>
-    <%= yield %>
-  </div>
 </body>
 </html>

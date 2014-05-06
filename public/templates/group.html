@@ -10,7 +10,7 @@
   <div class="alert alert-success" ng-if='isAckedByMyself() == false && model.group.status == "deal"'>
     <p><strong>{{ model.group.deal.submitterName }} and {{ model.group.deal.acceptorName }} made a deal, click this button and wait</strong>
     </p>
-    <button class="btn btn-default" ng-click="nextRound()">Next Round</button>
+    <button class="btn btn-info" ng-click="nextRound()">Next Round</button>
   </div>
 
   <div class="alert alert-info" ng-if='isAckedByMyself() == true && model.group.status == "deal"'>
@@ -62,7 +62,7 @@
       </table>
 
       <div>
-        <button class="btn btn-default btn-block" type="submit" ng-click="accept($index)">
+        <button class="btn btn-info btn-block" type="submit" ng-click="accept($index)">
           ACCEPT
         </button>
       </div>
@@ -93,7 +93,7 @@
           <input type="text" class="input-mini" ng-model="proposal_from_me[$index]">
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-default btn-block">SUBMIT</button>
+          <button type="submit" class="btn btn-info btn-block">SUBMIT</button>
         </div>
       </form>
   </div>

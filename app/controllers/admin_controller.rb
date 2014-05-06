@@ -2,7 +2,7 @@ class AdminController < ApplicationController
   # before_filter :require_admin
 
   def index 
-
+    render :index, layout: "admin"
   end
 
   def show_users
@@ -31,7 +31,7 @@ class AdminController < ApplicationController
   end
 
   def show_proposals
-    proposals = Proposal.all
+    proposals = Proposal.last(100)
     proposals_hash = []
     proposals.each do |p|
       # p['users'] = p.group.users.sort_by { |x| x.id }

@@ -1,5 +1,9 @@
-$(function() {
+//= require jquery
+//= require jquery.ui.effect-highlight
+//= require ./lib/underscore
 
+$(function() {
+  console.log("admin.js");
   String.format = function() {
     var s = arguments[0];
     for (var i = 0; i < arguments.length - 1; i++) {       
@@ -66,14 +70,14 @@ $(function() {
       var users = proposals[i].users;
       
       for (var j = 0; j < users.length; j++) {
-        if (users[j].id === p.from) {
+        if (users[j].id === p.submitter) {
           from_name = users[j].username;
           break;
         }
       }
 
       for (var j = 0; j < users.length; j++) {
-        if (users[j].id === p.to) {
+        if (users[j].id === p.acceptor) {
           to_name = users[j].username;
           break;
         }
@@ -84,7 +88,7 @@ $(function() {
       penalty_info = String.format("{0}: {1}  {2}: {3}",
                                    from_name, p.submitter_penalty, to_name, p.acceptor_penalty);
 
-      if (proposals[i].accept === true)
+      if (proposals[i].accepted === true)
         body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>",
                                     p.id, from_name, to_name, p.round_id, money_info, penalty_info, "YES", p.created_at, p.updated_at);
       else

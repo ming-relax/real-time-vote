@@ -16,6 +16,12 @@ class Proposal < ActiveRecord::Base
             .first
   end
 
+  def self.previous_deal(group_id, round_id)
+    Proposal.where("group_id = :group_id AND round_id = :round_id AND accepted = :accepted", 
+                   {group_id: group_id, round_id: round_id - 1, accepted: true})
+            .first
+  end
+
   def self.to_me(group, user_id)
     proposals = Proposal.where("group_id = :group_id AND round_id = :round_id AND acceptor = :user_id",
                                {group_id: group.id, round_id: group.round_id, user_id: user_id})
