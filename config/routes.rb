@@ -1,12 +1,14 @@
 RealtimeVote::Application.routes.draw do
   root to: 'vote#index'
+  get '/login' => 'vote#login'
+  
   resources :sessions, only: [:create, :destroy]
   resources :proposals, only: [:index, :create, :update]
   resources :users, only: [:create, :update]
   get 'users/query/:id' => 'users#query'
 
-  # resources :groups, only: [:update]
-
+  
+  get 'group/index' => 'groups#index'
   put 'groups/:id/next_round' => 'groups#next_round'
 
   get 'admin/' => 'admin#index'
@@ -20,6 +22,8 @@ RealtimeVote::Application.routes.draw do
 
   # room
   get 'rooms/' => 'rooms#index'
+  get 'rooms/template' => 'rooms#template'
   put 'rooms/join' => 'rooms#join'
   put 'rooms/leave' => 'rooms#leave'
+
 end

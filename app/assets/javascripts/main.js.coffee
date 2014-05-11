@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-
+I18n.locale = 'cn'
 
 @vote = angular.module('vote', ['ngRoute', 'ngAnimate'])
 
@@ -14,17 +14,17 @@
 @vote.config(['$routeProvider', ($routeProvider) ->
   $routeProvider
     .when('/rooms', {
-      templateUrl: '../templates/rooms/index.html',
+      templateUrl: '/rooms/template.html',
       controller: 'RoomIndexCtrl',
       requireLogin: true
     })
     .when('/group', {
-      templateUrl: '../templates/group.html',
+      templateUrl: '/group/index.html',
       controller: 'GroupCtrl',
       requireLogin: true
       })
     .otherwise({
-      templateUrl: '../templates/home.html',
+      templateUrl: '/login.html',
       controller: 'UserAuthCtrl',
       requireLogin: false
       })

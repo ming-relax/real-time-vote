@@ -1,20 +1,24 @@
 <div class="container" id="group">
   <div class="row">
     <p id="basic-group-info" class="text-center">
-      Betray penalty is {{model.group.betray_penalty}}; Round id {{ model.group.round_id }}
+      <%=t 'betray_info', penalty: "{{model.group.betray_penalty}}" %>
+      <%=t 'round_info', round_id: "{{model.group.round_id}}" %>
     </p>
 
   </div>
 
 
   <div class="alert alert-success" ng-if='isAckedByMyself() == false && model.group.status == "deal"'>
-    <p><strong>{{ model.group.deal.submitterName }} and {{ model.group.deal.acceptorName }} made a deal, click this button and wait</strong>
+    <p>
+      <strong>
+        <%= t 'deal_info', submitter: "{{ model.group.deal.submitterName }}", acceptor: "{{ model.group.deal.acceptorName }}"%>
+    </strong>
     </p>
-    <button class="btn btn-info" ng-click="nextRound()">Next Round</button>
+    <button class="btn btn-info" ng-click="nextRound()"><%= t 'next_round' %></button>
   </div>
 
   <div class="alert alert-info" ng-if='isAckedByMyself() == true && model.group.status == "deal"'>
-    <strong>Please wait others to confirm</strong>
+    <strong><%= t 'wait_info' %></strong>
   </div>
 
 
@@ -23,17 +27,17 @@
     <table class="table" id="statistics">
       <thead>
         <tr>
-          <th>Players</th>
+          <th><%= t 'players' %></th>
             <th ng-repeat="user in model.group.users">{{ user.username }}</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>total earning</td>
+          <td><%= t 'total_earnings' %></td>
           <td ng-repeat="user in model.group.users">{{ user.total_earning }}</td>
         </tr>
         <tr>
-          <td>last_earning</td>
+          <td><%= t 'last_earnings'%></td>
           <td ng-repeat="m in model.group.last_earning track by $index">{{ m }}</td>
         </tr>
       </tbody>
@@ -42,7 +46,7 @@
 
   <div class="row" id="opponents">
     <div ng-repeat="opponent in model.opponents track by $index" class="col-md-6 thumbnail">
-      <p>Opponent: {{ opponent.username }}</p>
+      <p><%= t 'opponent' %>:  {{ opponent.username }}</p>
       <table class="table">
         <thead>
         <tr>
@@ -54,7 +58,7 @@
         <tbody>
           <tr>
             <td>
-              Proposal
+              <%= t 'proposal' %>
             </td>
             <td ng-repeat="money in opponent.proposal_to_me.moneys track by $index">{{ money }}</td>
           </tr>
@@ -63,7 +67,7 @@
 
       <div>
         <button class="btn btn-info btn-block" type="submit" ng-click="accept($index)">
-          ACCEPT
+          <%= t 'accept' %>
         </button>
       </div>
           
@@ -80,7 +84,7 @@
 
         <tbody id="me">
           <tr>
-            <td>my proposal</td>
+            <td><%= t 'my_proposal' %></td>
             <td ng-repeat="money in opponent.proposal_from_me track by $index">{{ money }}</td>
           </tr>
         </tbody>
@@ -93,7 +97,7 @@
           <input type="text" class="input-mini" ng-model="proposal_from_me[$index]">
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-info btn-block">SUBMIT</button>
+          <button type="submit" class="btn btn-info btn-block"><%= t 'submit'%></button>
         </div>
       </form>
   </div>

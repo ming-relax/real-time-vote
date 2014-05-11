@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="login-container" ng-hide="displaySignup">
+    <div id="output"></div>
+    <div class="avatar"></div>
+    <div class="form-box">
+      <form action="" method="">
+          <input type="text" placeholder=<%= t 'username' %> ng-model="username">
+          <input type="password" placeholder=<%= t 'password' %> ng-model="password">
+          <button class="btn btn-info btn-block login" type="submit" ng-click="login()">
+            <%= t 'login'%>
+          </button>
+      </form>
+    </div>
+
+    <div class="signup-link" ng-hide="displaySignup">
+      <a href="" ng-click="loadSignup()">
+        <h4 class="text-info lead">
+          <%= t 'signup_info' %>
+        </h4>
+      </a>
+    </div>
+
+  </div>
+
+
+  <div class="signup-container" ng-show="displaySignup">
+    <div id="output"></div>
+    <div class="avatar"></div>
+    <div class="form-box">
+      <form action="" method="">
+          <input type="text" placeholder=<%= t 'username' %> ng-model="username">
+          <input type="text" placeholder=<%= t 'weibo' %> ng-model="weibo">
+          <input type="password" placeholder=<%= t 'password' %> ng-model="password">
+          <input type="password" placeholder=<%= t 'password_confirmation'%> ng-model="password_confirmation">
+          <button class="btn btn-info btn-block login" type="submit" ng-click="signup()">
+            <%= t 'signup' %>
+          </button>
+      </form>
+    </div>
+
+  <div class="login-link" ng-show="displaySignup">
+    <!-- <p class="text-muted">Already have an account?</p> -->
+    <a href="" ng-click="loadLogin()">
+      <h4 class="text-info lead"> 
+        <%= t 'login_info' %>
+      </h4>
+    </a>
+  </div>
+
+  </div>
+
+
+        
+</div>
+

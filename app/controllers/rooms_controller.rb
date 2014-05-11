@@ -4,6 +4,10 @@ class RoomsController < ApplicationController
     @rooms = Room.all.sort
   end
 
+  def template
+    render 'template', :layout => false
+  end
+
   def join
     room_id = params[:room_id].to_i
     user_id = params[:user_id].to_i

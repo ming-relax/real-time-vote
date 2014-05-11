@@ -17,8 +17,8 @@
   </div>
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
-      <li ng-if="isLoggedIn"><a>Welcome {{ username }}</a></li>
-      <li ng-if="isLoggedIn"><a href="" ng-click="logout()">Logout</a></li>
+      <li ng-if="isLoggedIn"><a><%= t 'welcome', username: "{{username}}" %></a></li>
+      <li ng-if="isLoggedIn"><a href="" ng-click="logout()"><%= t 'logout' %></a></li>
       <% if current_user and current_user.admin? %>
         <li><a href="/admin">Admin</a></li>
       <% end %>

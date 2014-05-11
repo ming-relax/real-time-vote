@@ -5,6 +5,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
   respond_to :json
 
+  before_action :set_locale
+
+  def set_locale
+    # I18n.locale = params[:locale] || I18n.default_locale
+    I18n.locale = 'cn'
+  end
+
   private
 
     def init_user_info

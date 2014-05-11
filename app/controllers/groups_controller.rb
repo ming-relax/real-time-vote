@@ -1,8 +1,8 @@
 class GroupsController < ApplicationController
-  # def update
-  #   Group.exit_group(params[:id], params[:user_id])
-  # end
 
+  def index
+    render 'index', :layout => false
+  end
 
   def next_round
     @group = Group.find(params[:id])

@@ -24,4 +24,11 @@ en:
   next_round: "Next Round"
   wait_info: "Please wait others to confirm"
   my: "My"
-
+  betray_info: "Betray penlaty is %{penalty}"
+  round_info: "Round id %{round_id}"
+  deal_info: "%{submitter} and %{acceptor} made a deal, click this button and wait"
+  opponent: "Opponent"
+  my_proposal: "My Proposal"
+  welcome: "Welcome %{username}"
+  signup_info: "No Account Yet? Signup Now"
+  login_info: "Already have an account? Login Now"
