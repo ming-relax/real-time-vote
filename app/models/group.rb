@@ -107,4 +107,25 @@ class Group < ActiveRecord::Base
     end
   end
 
+  def take_down(offline_users_id, room)
+    self.with_lock do
+      self.users.each do |user|
+        user.group_id = nil
+        user.room_id = nil
+        if offline_users_id.include?(user.id)
+          user.offline_records.create!(user_id: user.id)
+        end
+        user.save!
+      end
+      offline_users_id.each do |id|
+        u = User.find(id)
+        u.group_id = nil
+        u.room_id = nil
+        u.save!
+      end
+      room.users_id = []
+      room.save!
+    end
+  end
+
 end

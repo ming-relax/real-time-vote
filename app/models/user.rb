@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   belongs_to :group
+  has_many :offline_records
   validates_uniqueness_of :username
   
   authenticates_with_sorcery!

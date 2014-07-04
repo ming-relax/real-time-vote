@@ -70,6 +70,7 @@ class Proposal < ActiveRecord::Base
                        acceptor_penalty: acceptor_penalty)
       deal = proposal
       deal.moneys = moneys
+      OfflineChecker.perform_in(20.minute, group.id, group.round_id)
       return [deal, new_moneys]
     end
   end
