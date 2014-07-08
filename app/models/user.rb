@@ -46,7 +46,8 @@ class User < ActiveRecord::Base
     earning
   end
 
-  def self.query_user(id)
+  def self.query_user(id, group_id, round_id)
+    id = id.to_i
     user = User.find(id)
     user_info = {}
     user_info['myself'] = JSON.parse(user.to_json(:only => [:id, :room_id, :total_earning, :username, :round_id]))
@@ -80,6 +81,13 @@ class User < ActiveRecord::Base
         else
           user_info["opponents"][idx]['proposal_to_me'] = nil
         end
+      end
+    elsif group_id and round_id
+      offline_record = OfflineRecord.where("user_id = ? AND group_id = ? AND round_id = ?", user.id, group_id, round_id)
+      if offline_record
+        user_info['myself']['offline'] = true
+      else
+        user_info['myself']['dismissed'] = true
       end
     end
     user_info

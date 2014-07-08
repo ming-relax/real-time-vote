@@ -110,11 +110,12 @@ class Group < ActiveRecord::Base
   def take_down(offline_users_id, room)
     self.with_lock do
       self.users.each do |user|
+        # create offline record for those users
+        if offline_users_id.include?(user.id)
+          user.offline_records.create!(user_id: user.id, group_id: user.group.id, round_id: user.round_id)
+        end
         user.group_id = nil
         user.room_id = nil
-        if offline_users_id.include?(user.id)
-          user.offline_records.create!(user_id: user.id)
-        end
         user.save!
       end
       offline_users_id.each do |id|

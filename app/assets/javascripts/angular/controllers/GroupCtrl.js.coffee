@@ -37,14 +37,18 @@
       console.log('GroupCtrl: newVal: ', newVal, ' oldVal: ', oldVal)
       if newVal
         $scope.model.myself = newVal.myself
+        if newVal.myself.offline
+          alert("You are offline")
+
+        if newVal.myself.dismissed
+          alert("Group is dismissed due to others offline")
+
         $scope.model.group = newVal.group
         $scope.model.opponents = newVal.opponents
         if $scope.model.group and $scope.model.group.deal
           $scope.model.group.deal.submitterName = $scope.idToName($scope.model.group.deal.submitter)
           $scope.model.group.deal.acceptorName = $scope.idToName($scope.model.group.deal.acceptor)
 
-          # update last earning
-          # $scope.model.group.lastEarning = newVal.group.last_earning
     , true)
 
     if !userQueryService.queryStarted

@@ -17,7 +17,7 @@ class UsersController < ApplicationController
 
 
   def query
-    @user_info = User.query_user(params[:id].to_i)
+    @user_info = User.query_user(params[:id], params[:group_id], params[:round_id])
     render :json => @user_info
   end
 

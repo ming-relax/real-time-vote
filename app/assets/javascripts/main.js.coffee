@@ -106,11 +106,19 @@ I18n.locale = 'cn'
     user = userService.currentUser()
 
     if user and user.id
-      $http.get("users/query/#{user.id}.json")
-          .success (data, rsp) =>
-            userInfo = data
-            # console.log('queryUser: ', userInfo)
-          .error (rsp) =>
+      if userInfo and userInfo.group
+        $http.get("users/query/#{user.id}.json", params: {group_id: userInfo.group.id, round_id: userInfo.myself.round_id})
+            .success (data, rsp) =>
+              userInfo = data
+              # console.log('queryUser: ', userInfo)
+            .error (rsp) =>
+      else
+        $http.get("users/query/#{user.id}.json")
+            .success (data, rsp) =>
+              userInfo = data
+              # console.log('queryUser: ', userInfo)
+            .error (rsp) =>
+
     else
       # console.log('user not logged in')
       # userService.redirect_to_home()
