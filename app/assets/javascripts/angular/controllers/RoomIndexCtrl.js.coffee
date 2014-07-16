@@ -3,24 +3,23 @@
 
     if userService.hasGroup()
       $location.path('/group')
-      
+
     $scope.rooms = []
     $http.get('./rooms.json').success((data) ->
       $scope.rooms = data.rooms
-    )
+    ).then () ->
+      $scope.selected = "unselect" for _ in [1..$scope.rooms.length]
+
 
     $scope.joinRoom =  (index) ->
       console.log("index: ", index)
 
       userService.joinRoom($scope.rooms[index].id)
         .then () ->
+          $scope.selected = 'selected'
           if userService.hasGroup()
             $location.path('/group')
 
-    # $scope.$watch(userService.group, (newValue, oldValue) ->
-    #   if userService.hasGroup()
-    #     $location.path('/group')
-    # , true)
 
     # query ./rooms.json every second
     setInterval(( ->

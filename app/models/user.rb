@@ -84,10 +84,10 @@ class User < ActiveRecord::Base
       end
     elsif group_id and round_id
       offline_record = OfflineRecord.where("user_id = ? AND group_id = ? AND round_id = ?", user.id, group_id, round_id)
-      if offline_record
-        user_info['myself']['offline'] = true
-      else
+      if offline_record.empty?
         user_info['myself']['dismissed'] = true
+      else
+        user_info['myself']['offline'] = true
       end
     end
     user_info

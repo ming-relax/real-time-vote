@@ -1,6 +1,6 @@
 <div class="container">
   <div ng-repeat="room in rooms">
-    <div class="square" ng-click="joinRoom($index)">
+    <div class="square" ng-click="joinRoom($index)" ng-class="{{selected[$index]}}">
       {{room.seats}} 个空位
     </div>
   </div>

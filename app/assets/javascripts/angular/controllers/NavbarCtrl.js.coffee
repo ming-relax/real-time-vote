@@ -1,7 +1,5 @@
 @vote.controller 'NavbarCtrl', ['$scope', '$rootScope', 'userService', '$location', 
   ($scope, $rootScope, userService, $location) ->  
-
-    console.log('NavbarCtrl')
     
     $scope.isLoggedIn = userService.isLoggedIn()
     

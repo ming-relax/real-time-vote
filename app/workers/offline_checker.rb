@@ -2,7 +2,7 @@ class OfflineChecker
   include Sidekiq::Worker
 
   def perform(group_id, round_id)
-    group = Group.find(group_id)
+    group = Group.find_by_id(group_id)
     return if group.round_id != round_id
 
     if group.status == 'deal' and group.acked_users.include?(nil)

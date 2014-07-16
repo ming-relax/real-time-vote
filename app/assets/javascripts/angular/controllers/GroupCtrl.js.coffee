@@ -38,10 +38,14 @@
       if newVal
         $scope.model.myself = newVal.myself
         if newVal.myself.offline
-          alert("You are offline")
+          alert("您刚刚掉线了，请重新选择分组")
+          userService.offline()
+          $location.path('/rooms')
 
         if newVal.myself.dismissed
-          alert("Group is dismissed due to others offline")
+          alert("有人在1分钟内没有响应，请重新选择分组")
+          userService.offline()
+          $location.path('/rooms')
 
         $scope.model.group = newVal.group
         $scope.model.opponents = newVal.opponents
@@ -77,7 +81,6 @@
         console.log('group status is deal')
         return
 
-      console.log('proposal_to_me: ', $scope.model.opponents[index].proposal_to_me)
       return if !$scope.model.opponents[index].proposal_to_me
 
       id = $scope.model.opponents[index].proposal_to_me.id
@@ -111,8 +114,6 @@
   $scope.proposal_from_me = (null for _ in [1..3])
   $scope.submit = () ->
     
-    console.log('MyProposalCtrl: submit')
-
     if $scope.model.group.status == 'deal'
       console.log('group status is deal')
       return
@@ -122,7 +123,7 @@
 
     sum = moneys.reduce (t, s) -> t + s
     if sum != 100
-      alert("sum of money should be 100")
+      alert("分数总和必须为100")
       return
     
     $http.post(
@@ -137,7 +138,8 @@
       .success (data, status) =>
         console.log('success: ', data)
         $scope.model.opponents[$scope.$index].proposal_from_me = data.moneys
-
+        $scope.proposal_from_me = (null for _ in [1..3])
+        console.log($scope.proposal_from_me)
       .error (rsp) =>
         console.log('error: ', rsp)
 

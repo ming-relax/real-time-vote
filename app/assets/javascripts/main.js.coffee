@@ -92,6 +92,10 @@ I18n.locale = 'cn'
 
     groupId: (id) ->
       user.group_id = id
+
+    offline: ->
+      user.group_id = null
+      user.room_id = null
       
     currentUser: ->
       user    
