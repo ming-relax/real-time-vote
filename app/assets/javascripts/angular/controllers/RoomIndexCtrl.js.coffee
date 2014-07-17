@@ -5,25 +5,30 @@
       $location.path('/group')
 
     $scope.rooms = []
-    $http.get('./rooms.json').success((data) ->
+    $http.get('./rooms.json', params: {user_id: userService.currentUser().id}).success((data) ->
       $scope.rooms = data.rooms
-    ).then () ->
-      $scope.selected = "unselect" for _ in [1..$scope.rooms.length]
+    )
 
+    $scope.getRoomClass = (index, room) ->
+      if room.id == userService.currentUser().room_id
+        {myself: true}
+      else if room.seats > 0
+        {green: true}
+      else
+        {red: true}
 
     $scope.joinRoom =  (index) ->
       console.log("index: ", index)
 
       userService.joinRoom($scope.rooms[index].id)
         .then () ->
-          $scope.selected = 'selected'
           if userService.hasGroup()
             $location.path('/group')
 
 
     # query ./rooms.json every second
     setInterval(( ->
-      $http.get('./rooms.json').success((data) ->
+      $http.get('./rooms.json', params: {user_id: userService.currentUser().id}).success((data) ->
         $scope.rooms = data.rooms)
     ), 1000)
 
