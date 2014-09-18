@@ -1,5 +1,5 @@
-# source 'http://ruby.taobao.org/'
-source 'https://rubygems.org'
+source 'http://ruby.taobao.org/'
+# source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.3'
 
@@ -76,5 +76,5 @@ gem 'rvm-capistrano', group: :development
 gem 'capybara', group: :test
 gem 'selenium-webdriver', group: :test
 # Use debugger
-gem 'debugger', group: [:development, :test]
+# gem 'debugger', group: [:development, :test]
 

@@ -17,7 +17,6 @@
 //= require angular
 //= require angular-route
 //= require angular-animate
-//= require handlebars.runtime
 //= require ./lib/underscore
 //= require main
 //= require_tree .
