@@ -41,5 +41,8 @@ RUN mkdir /home/app/webapp
 ADD ./ home/app/webapp
 WORKDIR /home/app/webapp
 
+# add worker start script
+RUN mkdir /etc/service/sidekiq
+ADD config/docker/start_worker.sh /etc/service/sidekiq/run
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
