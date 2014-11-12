@@ -1,0 +1,13 @@
+web:
+  build: .
+  ports:
+    - "3000:80"
+  links:
+    - db
+    - redis
+db:
+  image: postgres
+  volumes:
+    - pg:/var/lib/postgresql
+redis:
+  image: redis
