@@ -12,7 +12,7 @@ development:
   pool: 5
   username: postgres
   password:
-  host: <%= ENV['DB_1_PORT_5432_TCP'] %>
+  host: <%= ENV['DB_1_PORT_5432_TCP_ADDR'] %>
 
 test:
   <<: *default
@@ -20,7 +20,7 @@ test:
   database: vote_test
   pool: 5
   username: postgres
-  host: <%= ENV['DB_1_PORT_5432_TCP'] %>
+  host: <%= ENV['DB_1_PORT_5432_TCP_ADDR'] %>
 
 production:
   <<: *default
@@ -28,4 +28,4 @@ production:
   database: vote_prod
   pool: 5
   username: postgres
-  host: <%= ENV['DB_1_PORT_5432_TCP'] %>
+  host: <%= ENV['DB_1_PORT_5432_TCP_ADDR'] %>
