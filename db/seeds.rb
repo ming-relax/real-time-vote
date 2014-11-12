@@ -16,7 +16,7 @@ Room.destroy_all
 	Room.create(users_id: [])
 end
 
-User.destroy_all
 3.times do |n|
-  User.create(username: "ming-#{n+1}", password: '123')
+  User.create!(username: "ming-#{n+1}", weibo: "ming-#{n+1}",
+               email: "ming#{n+1}@gmail.com", password: '123')
 end

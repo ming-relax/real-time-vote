@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="vote">
+<html>
 
 <head>
   <title>RealtimeVote</title>
@@ -10,24 +10,20 @@
 </head>
 <body>
 
-<div class="navbar navbar-default" role="navigation" ng-controller="NavbarCtrl">
-  <div class="navbar-header">
-    <a class="navbar-brand " href="">Vote for Money</a>
-    
+<div class="container">
+  <div class="row">
+    <h1 class="text-center col-md-10">Vote For Money</h1>
+    <% if logged_in? %>
+      <div class="col-md-2">
+        <%= link_to "注销", logout_path, method: :delete, class: "btn btn-default" %>
+      </div>
+    <% end %>
+
   </div>
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav">
-      <li ng-if="isLoggedIn"><a><%= t 'welcome', username: "{{username}}" %></a></li>
-      <li ng-if="isLoggedIn"><a href="" ng-click="logout()"><%= t 'logout' %></a></li>
-      <% if current_user and current_user.admin? %>
-        <li><a href="/admin">Admin</a></li>
-      <% end %>
-    </ul>
+  <%= yield %>
+  <div class="footer">
+    Designed by Ming
   </div>
 </div>
-
-  <div ng-view>
-    <%= yield %>
-  </div>
 </body>
 </html>

@@ -11,12 +11,15 @@
 // about supported directives.
 //
 //= require jquery
+//= require bootstrap-sprockets
 //= require jquery.ui.effect-highlight
 //= require i18n
 //= require i18n/translations
 //= require angular
 //= require angular-route
 //= require angular-animate
+//= require angular-rails-templates
+//= require_tree ./templates
 //= require ./lib/underscore
 //= require main
 //= require_tree .

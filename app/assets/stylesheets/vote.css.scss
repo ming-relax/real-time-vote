@@ -1,38 +1,7 @@
-// Place all the styles related to the vote controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-@import "bootstrap";
-
-.game-block {
-  // border: 10px solid #ccc;
-  color: white
+#signup {
+  // border: 1px solid;
+  margin-top: 40px;
 }
 
-// #group {
-//   color: white
-// }
-
-.thumbnail {
-  background: none;
-}
-
-.myself {
-  background: yellow;
-}
-
-.instruction {
-  text-align: center;
-  width: 50%;
-}
-
-.green {
-  background: green;
-}
-
-.red {
-  background: red;
-}
-
-.yellow {
-  background: yellow;
+.form-group {
 }

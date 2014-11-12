@@ -1,12 +1,18 @@
 class UsersController < ApplicationController
 
+  def new
+    @user = User.new
+
+  end
+
   def create
-    begin
-      @user = User.create!(username: params[:username], 
-                           password: params[:password],
-                           weibo: params[:weibo])   
-    rescue ActiveRecord::RecordInvalid => e
-      render :json => {:error => "username was taken"}, :status => 422
+    params[:user][:weibo] = params[:user][:username]
+    @user = User.new(user_param)
+    if @user.save
+      auto_login(@user)
+      redirect_to controller: 'vote', action: 'index'
+    else
+      render 'users/new'
     end
   end
 
@@ -23,6 +29,6 @@ class UsersController < ApplicationController
 
   private
     def user_param
-    params.require(:user).permit(:username, :password)
+    params.require(:user).permit(:username, :password, :email, :weibo)
     end
 end

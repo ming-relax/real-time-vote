@@ -33,3 +33,18 @@ cn:
   welcome: "欢迎 %{username}"
   signup_info: "未注册? 点击此处注册"
   login_info: "已有账户？点击此处登录"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            username:
+              taken: "已被占用"
+            email:
+              taken: "已被占用"
+              blank: "为空"
+    attributes:
+      user:
+        username: "用户名"
+        weibo: "微博"
+        email: "邮箱"

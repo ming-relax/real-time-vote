@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
   belongs_to :group
   has_many :offline_records
-  validates_uniqueness_of :username
+  validates_uniqueness_of :username, :email
+  validates_presence_of :email, :weibo
   
   authenticates_with_sorcery!
 

@@ -1,5 +1,6 @@
 @vote.controller 'RoomIndexCtrl', ['$scope', '$location', '$http', 'userService', 'userQueryService', 
   ($scope, $location, $http, userService, userQueryService) ->
+    console.log('RoomIndexCtrl')
 
     if userService.hasGroup()
       $location.path('/group')
@@ -33,9 +34,12 @@
     ), 1000)
 
     $scope.$watch(userQueryService.queryResult, (newValue, oldValue) ->
+      console.log newValue
       if newValue and newValue.group
         # must set group id to prevent redirect loop
         userService.groupId(newValue.group.id)
-        $location.path('/group')     
+        $location.path('/group')
     , true)
+
+    userQueryService.start()
 ]

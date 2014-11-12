@@ -1,7 +1,15 @@
 class SessionsController < ApplicationController
+  def new
+    @user = User.new
+  end
+
   def create
-    @user = login params[:username], params[:password]
-    render status: 422 unless @user
+    if @user = login(params[:user][:username], params[:user][:password])
+      redirect_to controller: 'vote', action: 'index'
+    else
+      flash.now[:alert] = 'Login failed'
+      render "sessions/new"
+    end
   end
 
   def destroy

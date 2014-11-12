@@ -85,7 +85,7 @@
 
       id = $scope.model.opponents[index].proposal_to_me.id
       $http.put(
-        "/proposals/accept/#{id}.json",
+        "/vote/proposals/accept/#{id}.json",
         {
           group_id: $scope.model.opponents[index].proposal_to_me.group_id
         })
@@ -98,7 +98,7 @@
       console.log('nextRound')
       group_id = $scope.model.group.id
       $http.put(
-        "/groups/#{group_id}/next_round.json",
+        "/vote/groups/#{group_id}/next_round.json",
         {
           user_id: $scope.model.myself.id
         })

@@ -4,7 +4,7 @@
 
 I18n.locale = 'cn'
 
-@vote = angular.module('vote', ['ngRoute', 'ngAnimate'])
+@vote = angular.module('vote', ['ngRoute', 'ngAnimate', 'templates'])
 
 @vote.config(['$httpProvider', ($httpProvider) ->
   authToken = $("meta[name=\"csrf-token\"]").attr("content")
@@ -13,20 +13,19 @@ I18n.locale = 'cn'
 
 @vote.config(['$routeProvider', ($routeProvider) ->
   $routeProvider
+    .when('/', {
+      templateUrl: 'rooms.html',
+      controller: 'RoomIndexCtrl'
+    })
     .when('/rooms', {
       templateUrl: '/rooms/template.html',
       controller: 'RoomIndexCtrl',
       requireLogin: true
     })
     .when('/group', {
-      templateUrl: '/group/index.html',
+      templateUrl: '/vote/group/index.html',
       controller: 'GroupCtrl',
       requireLogin: true
-      })
-    .otherwise({
-      templateUrl: '/login.html',
-      controller: 'UserAuthCtrl',
-      requireLogin: false
       })
 ])
 
@@ -109,6 +108,7 @@ I18n.locale = 'cn'
     userService.init(gon.user_info)
     user = userService.currentUser()
 
+    # console.log("userQueryService: poll: ", user, user.id)
     if user and user.id
       if userInfo and userInfo.group
         $http.get("users/query/#{user.id}.json", params: {group_id: userInfo.group.id, round_id: userInfo.myself.round_id})
@@ -143,8 +143,4 @@ I18n.locale = 'cn'
 
 @vote.run (['$rootScope', '$location', 'userService', ($rootScope, $location, userService) ->
   userService.init(gon.user_info)
-  $rootScope.$on('$routeChangeStart', (e, next, current) ->
-    if next.requireLogin and !userService.isLoggedIn()
-      $location.path('/')
-  )
 ])
