@@ -28,7 +28,7 @@ RealtimeVote::Application.routes.draw do
     put 'proposals/accept/:id' => 'proposals#accept'
 
     # room
-    get '/vote/rooms/' => 'rooms#index'
+    get '/vote/rooms' => 'rooms#index'
     get '/vote/rooms/template' => 'rooms#template'
     put '/vote/rooms/join' => 'rooms#join'
     put '/vote/rooms/leave' => 'rooms#leave'
