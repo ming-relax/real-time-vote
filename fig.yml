@@ -10,6 +10,6 @@ web:
 db:
   image: postgres
   volumes:
-    - pg/:/var/lib/postgresql
+    - pg/data/:/var/lib/postgresql/data
 redis:
   image: redis
