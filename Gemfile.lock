@@ -258,7 +258,6 @@ DEPENDENCIES
   capybara
   coffee-rails
   coffee-rails-source-maps
-  coffee-script-source
   database_cleaner
   factory_girl_rails
   gon
