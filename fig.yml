@@ -5,6 +5,8 @@ web:
   links:
     - db
     - redis
+  environment:
+    - RAILS_ENV
 db:
   image: postgres
   volumes:

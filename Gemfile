@@ -14,7 +14,6 @@ gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails'
-gem 'coffee-script-source'
 gem 'simple_form'
 gem 'angular-rails-templates'
 
