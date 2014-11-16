@@ -9,6 +9,8 @@ web:
     - RAILS_ENV
 db:
   image: postgres
+  ports:
+    - "5432"
   volumes:
     - pg/data/:/var/lib/postgresql/data
 redis:
