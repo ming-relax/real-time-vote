@@ -10,7 +10,7 @@ development:
   encoding: unicode
   database: vote_dev
   pool: 5
-  username: postgres
+  username: huming
   password:
   host: <%= ENV['DB_1_PORT_5432_TCP_ADDR'] %>
 
@@ -19,7 +19,7 @@ test:
   encoding: unicode
   database: vote_test
   pool: 5
-  username: postgres
+  username: huming
   host: <%= ENV['DB_1_PORT_5432_TCP_ADDR'] %>
 
 production:
