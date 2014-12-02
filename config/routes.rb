@@ -1,4 +1,8 @@
 RealtimeVote::Application.routes.draw do
+  require 'sidekiq/web'
+  require 'sidetiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   root to: 'users#new'
 
   get '/login' => 'sessions#new'

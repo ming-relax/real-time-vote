@@ -70,11 +70,13 @@ class Proposal < ActiveRecord::Base
                        acceptor_penalty: acceptor_penalty)
       deal = proposal
       deal.moneys = moneys
-      if Rails.env.development?
-        OfflineChecker.perform_in(20.seconds, group.id, group.round_id)
-      else
-        OfflineChecker.perform_in(1.minute, group.id, group.round_id)
-      end
+      # if Rails.env.development?
+      #   puts "=" * 80
+      #   puts group.inspect
+      #   OfflineChecker.perform_in(20.seconds, group.id, group.round_id)
+      # else
+      #   OfflineChecker.perform_in(1.minute, group.id, group.round_id)
+      # end
       return [deal, new_moneys]
     end
   end

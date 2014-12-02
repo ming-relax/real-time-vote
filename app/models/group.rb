@@ -1,9 +1,9 @@
 class Group < ActiveRecord::Base
-  # status: 'active' -> 'deal'
+  # status: 'active' -> 'deal', 'dismissed'
   belongs_to :room
   has_many :proposals
   has_many :users
-    
+
   def self.generate_penalty
     [0, 10, 20].sample
     # 20

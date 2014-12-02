@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
   def self.query_user(id, group_id, round_id)
     id = id.to_i
     user = User.find(id)
+    user.touch
     user_info = {}
     user_info['myself'] = JSON.parse(user.to_json(:only => [:id, :room_id, :total_earning, :username, :round_id]))
     group = user.group
