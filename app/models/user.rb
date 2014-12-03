@@ -85,6 +85,7 @@ class User < ActiveRecord::Base
         end
       end
     elsif group_id and round_id
+      # this group is dismissed, and frontend still send group_id
       offline_record = OfflineRecord.where("user_id = ? AND group_id = ? AND round_id = ?", user.id, group_id, round_id)
       if offline_record.empty?
         user_info['myself']['dismissed'] = true

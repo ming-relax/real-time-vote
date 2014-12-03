@@ -45,7 +45,7 @@
         if newVal.myself.dismissed
           alert("有人在1分钟内没有响应，请重新选择分组")
           userService.offline()
-          $location.path('/rooms')
+          $location.path('/')
 
         $scope.model.group = newVal.group
         $scope.model.opponents = newVal.opponents
