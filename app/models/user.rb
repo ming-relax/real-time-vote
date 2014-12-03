@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
     if group
       user_info["group"] = JSON.parse(group.to_json(:except => [:created_at, :updated_at, :users_id]))
       users = group.users
-      user_info["group"]["users"] = users.map { |u| JSON.parse(u.to_json(:only => [:id, :username, :total_earning])) }
+      user_info["group"]["users"] = users.sort.map { |u| JSON.parse(u.to_json(:only => [:id, :username, :total_earning])) }
       user_info["opponents"] = []
       user_info["group"]["users"].each do |u|
         user_info["opponents"] << { "username" => u['username'], "id" => u['id'] } if u['id'] != id
