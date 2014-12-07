@@ -1,5 +1,5 @@
-# source 'http://ruby.taobao.org/'
-source 'https://rubygems.org'
+source 'http://ruby.taobao.org/'
+# source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.3'
 gem 'sinatra', '>= 1.3.0', :require => nil
