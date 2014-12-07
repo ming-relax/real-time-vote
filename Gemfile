@@ -17,6 +17,8 @@ gem 'coffee-rails'
 gem 'simple_form'
 gem 'angular-rails-templates'
 
+gem 'opbeat'
+
 group :development, :test do
   gem 'rspec-rails'
   gem "factory_girl_rails"
