@@ -7,6 +7,8 @@ web:
     - redis
   environment:
     - RAILS_ENV
+  volumes:
+    - public/assets:/home/app/webapp/public/assets
 db:
   image: postgres
   ports:
