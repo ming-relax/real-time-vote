@@ -6,10 +6,8 @@ RealtimeVote::Application.routes.draw do
   root to: 'users#new'
 
   get '/login' => 'sessions#new'
-
-  get    'login'   => 'sessions#new'
-  post   'login'   => 'sessions#create'
-  delete 'logout'  => 'sessions#destroy'
+  post   '/login'   => 'sessions#create'
+  delete '/logout'  => 'sessions#destroy'
 
   resources :users, only: [:create, :update]
 

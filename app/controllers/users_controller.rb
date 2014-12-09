@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
 
   def new
+    if logged_in?
+      redirect_to controller: 'vote', action: 'index' and return
+    end
     @user = User.new
-
   end
 
   def create
