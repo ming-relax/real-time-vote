@@ -19,7 +19,7 @@
         <% if current_user.admin? %>
           <%= link_to "Admin", "/admin", class: "btn btn-default" %>
         <% end %>
-      <%= link_to "注销", logout_path, method: :delete, class: "btn btn-default" %>
+      <%= link_to "退出", logout_path, method: :delete, class: "btn btn-default" %>
       <% end %>
     </div>
 
