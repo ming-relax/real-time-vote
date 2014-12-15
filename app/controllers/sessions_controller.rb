@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    if @user = login(params[:user][:username], params[:user][:password])
+    if @user = login(params[:user][:email], params[:user][:password])
       redirect_to controller: 'vote', action: 'index'
     else
       flash.now[:alert] = 'Login failed'

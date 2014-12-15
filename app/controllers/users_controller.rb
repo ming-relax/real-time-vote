@@ -31,6 +31,6 @@ class UsersController < ApplicationController
 
   private
     def user_param
-    params.require(:user).permit(:username, :password, :email, :weibo)
+      params.require(:user).permit(:username, :password, :email, :weibo)
     end
 end
