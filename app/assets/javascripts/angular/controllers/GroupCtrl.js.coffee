@@ -130,7 +130,7 @@
 
     sum = moneys.reduce (t, s) -> t + s
     if sum != 100
-      alert("分数总和必须为100")
+      alert("得分总和必须为100")
       return
     
     $http.post(
