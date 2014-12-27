@@ -5,7 +5,7 @@ class Group < ActiveRecord::Base
   has_many :users
 
   def self.generate_penalty
-    [0, 10, 20].sample
+    [20, 40, 60].sample
     # 20
   end
 

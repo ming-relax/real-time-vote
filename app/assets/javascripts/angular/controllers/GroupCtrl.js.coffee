@@ -117,9 +117,16 @@
     if $scope.model.group.status == 'deal'
       console.log('group status is deal')
       return
-    
-    moneys = $scope.proposal_from_me.map (m) -> 
+
+    isFloat = false
+    moneys = $scope.proposal_from_me.map (m) ->
+      if !isNaN(m) && m.toString().indexOf('.') != -1
+        isFloat = true
+
       parseInt(m)
+    if isFloat == true
+      alert("分数必须是整数")
+      return
 
     sum = moneys.reduce (t, s) -> t + s
     if sum != 100
