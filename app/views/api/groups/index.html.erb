@@ -28,7 +28,7 @@
       <thead>
         <tr>
           <th><%= t 'players' %></th>
-            <th ng-repeat="user in model.group.users">{{ user.username }}</th>
+            <th ng-repeat="user in model.group.users">{{ user.id }}</th>
         </tr>
       </thead>
       <tbody>
@@ -46,12 +46,12 @@
 
   <div class="row" id="opponents">
     <div ng-repeat="opponent in model.opponents track by $index" class="col-md-6 thumbnail">
-      <p><%= t 'opponent' %>:  {{ opponent.username }}</p>
+      <p><%= t 'opponent' %>:  {{ opponent.id }}</p>
       <table class="table">
         <thead>
         <tr>
           <th>#</th>
-          <th ng-repeat="user in model.group.users">{{ user.username}}</th>
+          <th ng-repeat="user in model.group.users">{{ user.id}}</th>
         </tr>
         </thead>
 
@@ -78,7 +78,7 @@
         <thead>
         <tr>
           <th>#</th>
-          <th ng-repeat="user in model.group.users">{{ user.username }}</th>
+          <th ng-repeat="user in model.group.users">{{ user.id }}</th>
         </tr>
         </thead>
 
@@ -93,7 +93,7 @@
 
       <form class="form-inline" role="form" ng-controller="MyProposalCtrl" ng-submit="submit()">
         <div class="form-group" ng-repeat="money in proposal_from_me track by $index">
-          <label>{{ model.group.users[$index].username }}</label>
+          <label>{{ model.group.users[$index].id }}</label>
           <input type="text" class="input-mini" ng-model="proposal_from_me[$index]">
         </div>
         <div class="form-group">
