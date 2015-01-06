@@ -76,6 +76,8 @@ gem 'rvm-capistrano', group: :development
 
 gem 'capybara', group: :test
 gem 'selenium-webdriver', group: :test
+gem 'slack-notifier'
+gem 'exception_notification'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
