@@ -68,7 +68,7 @@ describe User do
               submitter: submitter.id,
               acceptor: me.id,
               moneys: moneys)
-            
+
             expected_info = {
               "myself" => {
                 "id" => me.id,
@@ -89,7 +89,7 @@ describe User do
                 { 
                   "username" => group.users[1].username,
                   "id" => group.users[1].id,
-                  "proposal_to_me" => proposal.moneys
+                  "proposal_to_me" => proposal
                 },
                 {
                   "username" => group.users[2].username,
@@ -98,7 +98,8 @@ describe User do
                 }    
               ]             
             }
-            expect(User.query_user(me.id)).to eq(expected_info)
+            result = User.query_user(me.id, group.id, group.round_id)
+            expect(result['opponents']).to eq(expected_info['opponents'])
           end
         end
         
@@ -108,11 +109,6 @@ describe User do
             submitter1 = group.users[1]
             submitter2 = group.users[2]
             moneys = [10, 20, 70]
-            proposal1 = Proposal.submit(group_id: group.id,
-              round_id: group.round_id,
-              submitter: submitter1.id,
-              acceptor: me.id,
-              moneys: moneys)
 
             proposal2 = Proposal.submit(group_id: group.id,
               round_id: group.round_id,
@@ -120,7 +116,12 @@ describe User do
               acceptor: me.id,
               moneys: moneys)
 
-            
+            proposal1 = Proposal.submit(group_id: group.id,
+              round_id: group.round_id,
+              submitter: submitter1.id,
+              acceptor: me.id,
+              moneys: moneys)
+
             expected_info = {
               "myself" => {
                 "id" => me.id,
@@ -141,16 +142,17 @@ describe User do
                 { 
                   "username" => group.users[1].username,
                   "id" => group.users[1].id,
-                  "proposal_to_me" => proposal1.moneys
+                  "proposal_to_me" => proposal1
                 },
                 {
                   "username" => group.users[2].username,
                   "id" => group.users[2].id,
-                  "proposal_to_me" => proposal2.moneys
+                  "proposal_to_me" => proposal2
                 }    
               ]                           
             }
-            expect(User.query_user(me.id)).to eq(expected_info)            
+            result = User.query_user(me.id, group.id, group.round_id)
+            expect(result['opponents']).to eq(expected_info['opponents'])            
           end
         end
         

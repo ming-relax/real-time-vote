@@ -1,5 +1,5 @@
-source 'http://ruby.taobao.org/'
-# source 'https://rubygems.org'
+# source 'http://ruby.taobao.org/'
+source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.3'
 gem 'sinatra', '>= 1.3.0', :require => nil
@@ -18,10 +18,10 @@ gem 'simple_form'
 gem 'angular-rails-templates'
 
 gem 'opbeat'
-
+gem 'rails-i18n', github: 'svenfuchs/rails-i18n', branch: 'master'
 group :development, :test do
   gem 'rspec-rails'
-  gem "factory_girl_rails"
+  gem 'factory_girl_rails', :git => 'git://github.com/thoughtbot/factory_girl_rails.git'
   gem 'database_cleaner'
   gem 'coffee-rails-source-maps'
   gem 'better_errors'

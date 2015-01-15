@@ -29,7 +29,7 @@ class Proposal < ActiveRecord::Base
 
 
     users_id = group.users_id
-    others = users_id.select { |id| id != user_id }    
+    others = users_id.select { |id| id != user_id }.sort
     proposals = others.map do |other|
       proposals.find { |p| p.submitter == other}
     end

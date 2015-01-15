@@ -7,10 +7,15 @@ FactoryGirl.define do
   sequence :email do |n|
     "test#{n}@ming.com"
   end
+
+  sequence :weibo do |n|
+    "test#{n}"
+  end
   
   factory :user do
     username
     email
+    weibo
     password 'private'
   end
 
