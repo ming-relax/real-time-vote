@@ -54,4 +54,7 @@ class AdminController < ApplicationController
     end
   end
 
+  def show_offline_records
+    @records = OfflineRecord.order("created_at DESC").limit(100)
+  end
 end

@@ -2,7 +2,7 @@
   <p class="lead instruction green">绿色为可选座位</p>
   <p class="lead instruction red">红色为不可选的座位</p>
   <p class="lead instruction yellow">黄色表示自己</p>
-  <div ng-repeat="room in rooms">
+  <div ng-repeat="room in rooms" id="rooms">
     <div class="square" ng-click="joinRoom($index)" ng-class="getRoomClass($index, room)">
       {{room.seats}} 个空位
     </div>

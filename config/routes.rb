@@ -15,6 +15,7 @@ RealtimeVote::Application.routes.draw do
   get 'admin/show_users' => 'admin#show_users'
   get 'admin/show_groups' => 'admin#show_groups'
   get 'admin/show_proposals' => 'admin#show_proposals'
+  get 'admin/show_offline_records' => 'admin#show_offline_records', as: 'offline_records'
 
   get 'vote/index' => 'vote#index'
 

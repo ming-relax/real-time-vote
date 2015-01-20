@@ -1,0 +1,7 @@
+<ul>
+  <% @records.each do |r| %>
+    <li>
+      User ID: <%= r.user_id %>  Group ID: <%= r.group_id%> Round ID: <%= r.round_id %> At: <%= r.created_at %>
+    </li>
+  <% end %>
+</ul>
