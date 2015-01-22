@@ -27,7 +27,7 @@ FactoryGirl.define do
     room
     round_id 0
     betray_penalty 0
-    moneys [0, 0, 0]
+    # moneys [0, 0, 0]
 
     after(:create) do |group|
       users = (1..3).map do |e|
@@ -41,16 +41,15 @@ FactoryGirl.define do
     status "active"
   end
 
-  # factory :proposal do
-	 #  group
-	 #  round_id 0
-	 #  submitter 1
-	 #  acceptor 1
-	 #  accepted false
-	 #  moneys [1, 2, 3]
-	 #  submitter_penalty 0
-	 #  acceptor_penalty 0
-  # end
-
+  factory :proposal do
+	  group
+	  round_id 0
+	  submitter 1
+	  acceptor 1
+	  accepted false
+	  # moneys [1, 2, 3]
+	  submitter_penalty 0
+	  acceptor_penalty 0
+  end
 end
 

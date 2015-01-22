@@ -41,7 +41,8 @@ class Group < ActiveRecord::Base
 
   end
 
-  def update_earnings(p)
+  # return this round's final moneys
+  def update_users_earnings(p)
     submitter_penalty = 0
     acceptor_penalty = 0
 
@@ -49,33 +50,33 @@ class Group < ActiveRecord::Base
       User.find(self.users_id[i])
     end
     users = users.sort { |a, b| a.id <=> b.id }
-
-    moneys = [0, 0, 0]
-    users.each_index do |i|
-      users[i].total_earning += p.moneys[i]
-      moneys[i] = p.moneys[i]
+    users_moneys = Hash[users.map {|u| [u.id.to_s, 0]}]
+    users.each_with_index do |user, i|
+      # puts "*" * 80
+      # puts p.moneys
+      # puts p.moneys[user.id.to_s]
+      # puts users[i].total_earning
+      users[i].total_earning += p.moneys[user.id.to_s]
+      users_moneys[user.id.to_s] = p.moneys[user.id.to_s]
 
       if users[i].id == p.acceptor
         acceptor_penalty = penalty(p.acceptor, p.submitter, p.round_id)
         users[i].total_earning -= acceptor_penalty
-        moneys[i] -= acceptor_penalty
+        users_moneys[user.id.to_s] -= acceptor_penalty
         # puts "acceptor_penalty: #{acceptor_penalty}, id: #{p.acceptor}, index: #{i}"
       end
 
       if users[i].id == p.submitter
         submitter_penalty = penalty(p.submitter, p.acceptor, p.round_id)
         users[i].total_earning -= submitter_penalty
-        moneys[i] -= submitter_penalty
+        users_moneys[user.id.to_s] -= submitter_penalty
         # puts "submitter_penaly: #{submitter_penalty}, id: #{p.submitter}, index: #{i}"
       end
-
       users[i].save!
-      
     end
-    
-    # puts "update_earnings: #{moneys}"
+    # puts "update_users_earnings: #{users_moneys}"
 
-    [submitter_penalty, acceptor_penalty, moneys]
+    [submitter_penalty, acceptor_penalty, users_moneys]
 
   end
 
@@ -96,6 +97,8 @@ class Group < ActiveRecord::Base
     self.with_lock do
       user_index = users_id.index(user_id)
       raise 'InvalidUserId' unless user_index
+      # Change user's round id first
+      # If all users are acked, change group's round id
       self.acked_users[user_index] = user_id
       if self.acked_users == self.users_id
         self.status = 'active'

@@ -132,7 +132,12 @@
     if sum != 100
       alert("得分总和必须为100")
       return
-    
+
+    moneys_hash = {}
+    for m, i in moneys
+      moneys_hash[$scope.model.group.users[i].id] = m
+
+    console.log moneys_hash
     $http.post(
       'proposals/submit.json', 
       { 
@@ -140,7 +145,7 @@
         round_id: $scope.model.group.round_id,
         submitter: $scope.model.myself.id,
         acceptor: $scope.model.opponents[$scope.$index].id,
-        moneys: moneys
+        moneys: moneys_hash
       })
       .success (data, status) =>
         console.log('success: ', data)

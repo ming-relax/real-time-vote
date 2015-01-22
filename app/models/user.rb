@@ -9,39 +9,23 @@ class User < ActiveRecord::Base
   # return [user, group_sync, myself_sync ]
   def self.next_round(id)
     user = User.find(id)
-    
-    if user.round_id < user.group.round_id
+    if user.round_id == user.group.round_id
       user.round_id += 1 
       user.save!
     end
-    
-
-    if Group.round_id_sync?(user.group_id)
-      Pusher.group_sync(user.id, user.group_id, user.round_id)
-      return [user, true, true]
-    else
-      return [user, false, true]
-    end
-
   end
 
   def self.deal_to_earning(users, deal)
+    earning = deal.moneys
     submitter_index = nil
     acceptor_index = nil
     users.each_with_index do |u, index|
       if u.id == deal.submitter
         submitter_index = index
+        earning[u.id.to_s] -= deal.submitter_penalty
       elsif u.id == deal.acceptor
         acceptor_index = index
-      end 
-    end
-
-    earning = deal.moneys
-    deal.moneys.each_with_index do |m, index|
-      if index == submitter_index
-        earning[index] -= deal.submitter_penalty
-      elsif index == acceptor_index
-        earning[index] -= deal.acceptor_penalty
+        earning[u.id.to_s] -= deal.acceptor_penalty
       end
     end
     earning

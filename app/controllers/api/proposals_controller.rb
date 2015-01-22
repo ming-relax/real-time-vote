@@ -6,7 +6,7 @@ class Api::ProposalsController < ApplicationController
   end
 
   def submit
-    @proposal = Proposal.create proposal_param
+    @proposal = Proposal.create! proposal_param
   end
 
   def accept
@@ -23,10 +23,11 @@ class Api::ProposalsController < ApplicationController
                                      :group_id, 
                                      :round_id, 
                                      :submitter, 
-                                     :acceptor, 
-                                     {:moneys => []}, 
+                                     :acceptor,  
                                      :accepted, 
                                      :submitter_penalty, 
-                                     :acceptor_penalty)
+                                     :acceptor_penalty).tap do |whitelisted|
+                                       whitelisted[:moneys] = params[:proposal][:moneys]
+                                     end
   end
 end

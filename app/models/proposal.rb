@@ -5,9 +5,9 @@ class Proposal < ActiveRecord::Base
   validate :sum_of_moneys, on: :create
 
   def sum_of_moneys
-    puts self
-    sum = moneys.inject {|sum,x| sum + x }
-    errors.add(:moneys, 'sum of money should be 100') if sum != 100   
+    sum = moneys.values.sum
+    puts sum
+    errors.add(:moneys, 'sum of moneys should be 100') if sum != 100
   end
 
   def self.deal(group_id, round_id)
@@ -41,7 +41,9 @@ class Proposal < ActiveRecord::Base
     self.transaction do
       group = Group.lock(true).find(options[:group_id])
       raise "Dealed" if group.status != 'active'
-      Proposal.create!(options)
+      p = Proposal.new(options)
+      p.save!
+      p
     end
   end
 
@@ -53,17 +55,20 @@ class Proposal < ActiveRecord::Base
       proposal = Proposal.find(options[:id])
 
       # update each user's earnings
-      submitter_penalty, acceptor_penalty, moneys = group.update_earnings(proposal)
+      submitter_penalty, acceptor_penalty, moneys = group.update_users_earnings(proposal)
 
       # update group
-      new_moneys = group.moneys.map.with_index do |e, i|
-        e + moneys[i]
+      if group.moneys != nil
+        new_moneys = Hash[group.moneys.map {|id_s, m| [id_s, m + moneys[id_s]]}]
+      else
+        new_moneys = moneys
       end
 
       # dont update round_id for now
       # wait until all users acked
       group.update!(moneys: new_moneys,
                status: 'deal')
+
       # update proposal
       proposal.update!(accepted: true, 
                        submitter_penalty: submitter_penalty, 
