@@ -22,15 +22,15 @@ $(function() {
 
   
   var draw_users = function(users) {
-    var head = "<tr><th>Name</th><th>Group id</th></tr>";
+    var head = "<tr><th>Name</th><th>weibo</th><th>Group id</th></tr>";
     clear_draw_data();
     $('#users').addClass('active');
     $('#draw-head').append(head);
     var body = "";
     
     for (var i = 0; i < users.length; i++) {
-      body = body + String.format("<tr><td>{0}</td><td>{1}</td></tr>", 
-                                  users[i].username, users[i].group_id);
+      body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>", 
+                                  users[i].username, users[i].weibo, users[i].group_id);
     }
     $('#draw-body').append(body);
 
@@ -84,7 +84,7 @@ $(function() {
       }
 
       money_info = String.format("{0}: {1}  {2}: {3}  {4}: {5}", 
-                                  users[0].username, p.moneys[0], users[1].username, p.moneys[1], users[2].username, p.moneys[2]);
+                                  users[0].username, p.moneys[users[0].id], users[1].username, p.moneys[users[1].id], users[2].username, p.moneys[users[2].id]);
       penalty_info = String.format("{0}: {1}  {2}: {3}",
                                    from_name, p.submitter_penalty, to_name, p.acceptor_penalty);
 

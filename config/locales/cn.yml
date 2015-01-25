@@ -15,7 +15,7 @@ cn:
   total_earnings: "总积分"
   last_earnings: "上次积分"
   players: "玩家 ID"
-  proposal: "提案"
+  proposal_from_oponent: "对手给我的提案"
   accept: "接受"
   submit: "提交"
   before_first: ""

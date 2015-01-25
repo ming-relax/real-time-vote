@@ -149,7 +149,7 @@
       })
       .success (data, status) =>
         console.log('success: ', data)
-        $scope.model.opponents[$scope.$index].proposal_from_me = data.moneys
+        $scope.model.opponents[$scope.$index].proposal_from_me = data.proposal.moneys
         $scope.proposal_from_me = (null for _ in [1..3])
         console.log($scope.proposal_from_me)
       .error (rsp) =>

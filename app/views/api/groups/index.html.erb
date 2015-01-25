@@ -47,8 +47,8 @@
 
   <div class="row" id="opponents">
     <div ng-repeat="opponent in model.opponents track by $index" class="col-md-6 thumbnail">
-      <p><%= t 'opponent' %>:  {{ opponent.id }}</p>
-      <table class="table">
+<!--       <p><%= t 'opponent' %>:  {{ opponent.id }}</p>
+ -->      <table class="table">
         <thead>
         <tr>
           <th>#</th>
@@ -59,7 +59,7 @@
         <tbody>
           <tr>
             <td>
-              <%= t 'proposal' %>
+              对手 {{ opponent.id }} 给我提案
             </td>
             <td ng-repeat="money in opponent.proposal_to_me.moneys track by $index">{{ money }}</td>
           </tr>
@@ -74,7 +74,6 @@
           
 
       <hr/>
-
       <table class="table">
         <thead>
         <tr>
@@ -85,7 +84,9 @@
 
         <tbody id="me">
           <tr>
-            <td><%= t 'my_proposal' %></td>
+            <td>
+              我对 {{ opponent.id }} 的提案
+            </td>
             <td ng-repeat="money in opponent.proposal_from_me track by $index">{{ money }}</td>
           </tr>
         </tbody>
