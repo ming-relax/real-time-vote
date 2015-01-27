@@ -11,7 +11,7 @@ class Room < ActiveRecord::Base
         # create group and push start msg to group members
         g = Group.create(room_id: room_id, 
                          round_id: 0, 
-                         moneys: {"#{users[0].id}" => 0, "#{users[1].id}" => 0, "#{users[2]}" => 0},
+                         moneys: {"#{users[0].id}" => 0, "#{users[1].id}" => 0, "#{users[2].id}" => 0},
                          users_id: [users[0], users[1], users[2]],
                          acked_users: [nil, nil, nil],
                          betray_penalty: Group.generate_penalty())
