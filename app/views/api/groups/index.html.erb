@@ -12,7 +12,7 @@
   <div class="alert alert-success" ng-if='isAckedByMyself() == false && model.group.status == "deal"'>
     <p>
       <strong>
-        <%= t 'deal_info', submitter: "{{ model.group.deal.submitterName }}", acceptor: "{{ model.group.deal.acceptorName }}"%>
+        <%= t 'deal_info', submitter: "{{ model.group.deal.submitter }}", acceptor: "{{ model.group.deal.acceptor }}"%>
     </strong>
     </p>
     <button class="btn btn-info" ng-click="nextRound()"><%= t 'next_round' %></button>
