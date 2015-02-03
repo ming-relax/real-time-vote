@@ -26,6 +26,9 @@
             <%= link_to "Admin", "/admin", class: "btn btn-default" %>
           </li>
         <% end %>
+        <li>
+          <span>欢迎 <%= current_user.id ></span>
+        </li>
       <% end %>
     </ul>
   </div>
