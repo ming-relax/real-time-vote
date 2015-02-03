@@ -102,7 +102,8 @@ $(function() {
   };
 
   var init_users = function($elem) {
-    $elem.click(function() {
+    $elem.click(function(e) {
+      e.preventDefault();
       $.ajax({
         url: '/admin/show_users.json',
         type: 'GET',
@@ -116,8 +117,8 @@ $(function() {
   };
 
   var init_groups = function($elem) {
-    $elem.click(function() {
-
+    $elem.click(function(e) {
+      e.preventDefault();
       $.ajax({
         url: '/admin/show_groups.json',
         type: 'GET',
@@ -132,7 +133,8 @@ $(function() {
   };
 
   var init_proposals = function($elem) {
-    $elem.click(function() {
+    $elem.click(function(e) {
+      e.preventDefault();
       $.ajax({
         url: '/admin/show_proposals.json',
         type: 'GET',

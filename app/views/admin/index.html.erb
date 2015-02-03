@@ -2,8 +2,8 @@
 <div class="row-fluid">
   <ul class="nav nav-tabs">
     <li id="users" class="nav-info"><a href="#">Users</a></li>
-    <li id="groups" class="nav-info"><a href=<%=admin_show_groups_url%>>Groups</a></li>
-    <li id="proposals" class="nav-info"><a href="#">Proposals</a></li>
+    <li id="groups" class="nav-info"><a href=<%= admin_show_groups_url(format: :json) %>>Groups</a></li>
+    <li id="proposals" class="nav-info"><a href=<%= admin_show_proposals_url(format: :json)%>>Proposals</a></li>
     <li ><%= link_to "Offline Records", offline_records_url %></li>
   </ul>
 
