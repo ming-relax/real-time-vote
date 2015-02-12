@@ -8,7 +8,7 @@ web:
   environment:
     - RAILS_ENV
   volumes:
-    - public/assets:/home/app/webapp/public/assets
+    - public:/home/app/webapp/public
 db:
   image: postgres
   ports:

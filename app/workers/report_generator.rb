@@ -8,7 +8,7 @@ class ReportGenerator
   def perform
     attrs = User.attribute_names
     attrs.select! {|a| ['crypted_password', 'salt', 'admin', 'created_at', 'updated_at'].include?(a) == false}
-    CSV.open("public/users.csv", "wb") do |csv|
+    CSV.open("public/qwert/admins/users.csv", "wb") do |csv|
       csv << attrs
       User.find_each do |u|
         row = attrs.map do |a|
@@ -20,7 +20,7 @@ class ReportGenerator
 
     attrs = Group.attribute_names
     attrs.select! {|a| ['id', 'room_id', 'round_id', 'betray_penalty'].include?(a) == true}
-    CSV.open("public/groups.csv", "wb") do |csv|
+    CSV.open("public/qwert/admins/groups.csv", "wb") do |csv|
       attrs = attrs + ['user-1', 'user-2', 'user-3']
       attrs = attrs + ['money-1', 'money-2', 'money-3']
       csv << attrs
@@ -43,7 +43,7 @@ class ReportGenerator
 
     attrs = Proposal.attribute_names
     attrs.select! {|a| ['id', 'group_id', 'round_id', 'submitter', 'acceptor', 'submitter_penalty', 'acceptor_penalty'].include?(a) == true}
-    CSV.open("public/proposals.csv", "wb") do |csv|
+    CSV.open("public/qwert/admins/proposals.csv", "wb") do |csv|
       attrs = attrs + ['user-1', 'user-2', 'user-3']
       attrs = attrs + ['money-1', 'money-2', 'money-3']
       csv << attrs
@@ -61,7 +61,7 @@ class ReportGenerator
     end
 
     attrs = OfflineRecord.attribute_names
-    CSV.open("public/offline_records.csv", "wb") do |csv|
+    CSV.open("public/qwert/admins/offline_records.csv", "wb") do |csv|
       csv << attrs
       OfflineRecord.find_each do |offline_record|
         row = attrs.map do |a|
