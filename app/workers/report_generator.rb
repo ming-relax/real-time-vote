@@ -34,7 +34,7 @@ class ReportGenerator
           elsif a.include? 'money'
             idx = a.split('-').last.to_i - 1
             u_id = group.users_id[idx].to_s
-            group.moneys["#{u_id}"]
+            group.moneys["#{u_id}"] if group.moneys
           end
         end
         csv << row
