@@ -16,6 +16,7 @@
 /tmp
 /dump.rdb
 
+/public/*.csv
 /public/assets/source_maps/*
 
 coverage/

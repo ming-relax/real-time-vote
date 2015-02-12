@@ -1,13 +1,13 @@
 class AdminController < ApplicationController
   # before_filter :require_admin
 
-  def index 
+  def index
     render :index, layout: "admin"
   end
 
   def show_users
     users = User.all.select {|u| u.username != 'admin'}
-    
+
     assigned_users = users.select {|u| u.group_id != nil }
     assigned_users.sort_by! {|u| u.group_id}
 
@@ -48,7 +48,7 @@ class AdminController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { 
+      format.json {
         render json: proposals_hash
       }
     end
@@ -57,4 +57,5 @@ class AdminController < ApplicationController
   def show_offline_records
     @records = OfflineRecord.order("created_at DESC").limit(100)
   end
+
 end

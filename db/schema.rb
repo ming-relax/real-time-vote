@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150122143413) do
+ActiveRecord::Schema.define(version: 20150212130643) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,10 @@ ActiveRecord::Schema.define(version: 20150122143413) do
     t.integer  "acked_users",                       array: true
     t.json     "moneys"
   end
+
+  add_index "groups", ["room_id"], name: "index_groups_on_room_id", using: :btree
+  add_index "groups", ["round_id"], name: "index_groups_on_round_id", using: :btree
+  add_index "groups", ["status"], name: "index_groups_on_status", using: :btree
 
   create_table "offline_records", force: true do |t|
     t.integer "user_id",    null: false
@@ -48,6 +52,11 @@ ActiveRecord::Schema.define(version: 20150122143413) do
     t.json     "moneys"
   end
 
+  add_index "proposals", ["accepted"], name: "index_proposals_on_accepted", using: :btree
+  add_index "proposals", ["acceptor"], name: "index_proposals_on_acceptor", using: :btree
+  add_index "proposals", ["group_id"], name: "index_proposals_on_group_id", using: :btree
+  add_index "proposals", ["submitter"], name: "index_proposals_on_submitter", using: :btree
+
   create_table "rooms", force: true do |t|
     t.integer "users_id", null: false, array: true
   end
@@ -62,9 +71,13 @@ ActiveRecord::Schema.define(version: 20150122143413) do
     t.integer  "room_id"
     t.integer  "group_id"
     t.integer  "total_earning",    default: 0
-    t.integer  "round_id"
     t.string   "weibo"
     t.boolean  "admin"
   end
+
+  add_index "users", ["email"], name: "index_users_on_email", using: :btree
+  add_index "users", ["group_id"], name: "index_users_on_group_id", using: :btree
+  add_index "users", ["room_id"], name: "index_users_on_room_id", using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", using: :btree
 
 end
