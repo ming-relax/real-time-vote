@@ -2,7 +2,11 @@ class AdminController < ApplicationController
   # before_filter :require_admin
 
   def index
-    render :index, layout: "admin"
+    if current_user && current_user.admin?
+      render :index, layout: "admin"
+    else
+      render status: :forbidden
+    end
   end
 
   def show_users
