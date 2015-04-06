@@ -128,6 +128,11 @@
       alert("分数必须是整数")
       return
 
+    for m in moneys
+      if m < 0
+        alert("分数不能是负数")
+        return
+
     sum = moneys.reduce (t, s) -> t + s
     if sum != 100
       alert("得分总和必须为100")
