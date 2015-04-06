@@ -26,6 +26,6 @@ production:
   <<: *default
   encoding: unicode
   database: vote_prod
-  pool: 5
+  pool: 20
   username: postgres
   host: <%= ENV['DB_1_PORT_5432_TCP_ADDR'] %>
