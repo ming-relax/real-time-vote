@@ -38,7 +38,7 @@ ADD config/docker/app-env.conf /etc/nginx/main.d/app-env.conf
 
 
 RUN mkdir /home/app/webapp
-ADD . home/app/webapp/
+ADD ./ home/app/webapp/
 WORKDIR /home/app/webapp
 
 # add worker start script
