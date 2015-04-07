@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   belongs_to :group
+  belongs_to :room
   has_many :offline_records
   validates_uniqueness_of :username, :email
   validates_presence_of :email, :weibo
@@ -70,6 +71,7 @@ class User < ActiveRecord::Base
       end
     elsif group_id and round_id
       # this group is dismissed, and frontend still send group_id
+      # this user may be the first offline user or the not the first offline user
       offline_record = OfflineRecord.where("user_id = ? AND group_id = ? AND round_id = ?", user.id, group_id, round_id)
       if offline_record.empty?
         user_info['myself']['dismissed'] = true
@@ -87,6 +89,27 @@ class User < ActiveRecord::Base
   def add_admin
     self.admin = true
     self.save!
+  end
+
+  def quit
+    self.with_lock do
+      group = self.group
+      room = self.room
+
+      self.offline_records.create!(user_id: self.id, group_id: self.group.id, round_id: group.round_id)
+
+      room.users_id = []
+      room.save!
+
+      group.users.each do |u|
+        u.group_id = nil
+        u.room_id = nil
+        u.save!
+      end
+
+      group.status = "dismissed"
+      group.save!
+    end
   end
 
 end
