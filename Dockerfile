@@ -4,7 +4,7 @@
 # a list of version numbers.
 FROM phusion/passenger-ruby21:0.9.11
 
-RUN apt-get update
+# RUN apt-get update
 
 ENV HOME /root
 
