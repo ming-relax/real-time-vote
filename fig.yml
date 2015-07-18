@@ -7,7 +7,7 @@ web:
     - db
     - redis
   environment:
-    - RAILS_ENV
+    - RAILS_ENV=production
   volumes:
     - .:/myapp
 db:
