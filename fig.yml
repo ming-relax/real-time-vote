@@ -1,5 +1,6 @@
 web:
   build: .
+  command: bin/rails server --port 3000 --binding 0.0.0.0
   ports:
     - "80:80"
   links:
@@ -8,7 +9,7 @@ web:
   environment:
     - RAILS_ENV
   volumes:
-    - public:/home/app/webapp/public
+    - .:/myapp
 db:
   image: postgres
   ports:
