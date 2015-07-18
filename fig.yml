@@ -10,6 +10,18 @@ web:
     - RAILS_ENV=production
   volumes:
     - .:/myapp
+worker:
+  build: .
+  command: bin/bundle exec sidekiq
+  links:
+    - db
+    - redis
+  environment:
+    - RAILS_ENV=production
+  volumes:
+    - .:/myapp
+
+
 db:
   image: postgres
   ports:
