@@ -1,0 +1,1 @@
+vote.huming.me ansible_ssh_host=121.201.24.118 ansible_ssh_user=root ansible_ssh_private_key_file=qingyun
