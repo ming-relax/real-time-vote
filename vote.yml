@@ -21,13 +21,13 @@
         - configure_docker
       service: name=docker state=started enabled=yes
 
-    - name: use docker mirror
-      tags:
-        - configure
-      template: src=sysconfig.docker dest=/etc/sysconfig/docker
-      notify:
-        - restart docker
+    # - name: use docker mirror
+    #   tags:
+    #     - configure
+    #   template: src=sysconfig.docker dest=/etc/sysconfig/docker
+    #   notify:
+    #     - restart docker
 
-  handlers:
-    - name: restart docker
-      service: name=docker state=restarted
+  # handlers:
+  #   - name: restart docker
+  #     service: name=docker state=restarted
